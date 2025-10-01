@@ -1,0 +1,51 @@
+---
+title: 'Request Truck Slot'
+openapi: 'POST /api/truck-slots/request'
+---
+
+Request a truck slot for cargo transportation.
+
+## Request Body
+
+<ParamField body="truckSlotRequest" type="object" required>
+  Truck slot request details
+
+  <Expandable title="Truck Slot Request Properties">
+    <ParamField body="origin" type="string" required>
+      Origin location
+    </ParamField>
+    <ParamField body="destination" type="string" required>
+      Destination location
+    </ParamField>
+    <ParamField body="requestedDate" type="string" format="date" required>
+      Requested pickup date
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="slotId" type="string">
+    Unique truck slot identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Request status
+  </ParamField>
+</ParamField>
+
+## Response (400)
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

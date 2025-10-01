@@ -1,0 +1,33 @@
+---
+title: 'Get API Usage Stats'
+openapi: 'GET /api/usage'
+---
+
+Get API usage statistics and rate limits per tenant.
+
+## Query Parameters
+
+<ParamField query="period" type="string" default="current_month">
+  Reporting period
+</ParamField>
+
+<ParamField query="groupBy" type="string" default="endpoint">
+  Grouping criteria
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="UsageResponse">
+  <ParamField name="period" type="string">
+    Reporting period
+  </ParamField>
+  <ParamField name="totalRequests" type="integer">
+    Total API requests
+  </ParamField>
+  <ParamField name="requestsByEndpoint" type="object">
+    Requests grouped by endpoint
+  </ParamField>
+  <ParamField name="rateLimits" type="object">
+    Rate limit information
+  </ParamField>
+</ParamField>

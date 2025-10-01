@@ -1,33 +1,47 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Flight Management API Documentation'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Welcome to the Flight Management API
 
-## Welcome
-
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+This API provides endpoints to retrieve and create flight information, manage airway bills, and generate operational reports for a cargo airline.
 
 <Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
+  title="Flight Management API Specification"
+  icon="plane"
+  href="/api-reference/openapi.json"
 >
   View the OpenAPI specification file
 </Card>
 
-## Authentication
+## Base URLs
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+The API can be accessed at:
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+- Development: `http://localhost:3000`
+- Production: `https://mock-server-hazel-tau.vercel.app/`
+
+## API Sections
+
+<CardGroup>
+
+  <Card title="Availability" icon="searchengin" href="/api-reference/availability/create">
+    Search availability and rates
+  </Card>
+  <Card title="Booking" icon="book-open" href="/api-reference/booking/create">
+    Create and cancel bookings
+  </Card>
+  <Card title="Status" icon="chart-simple" href="/api-reference/status/get">
+    Service health and metadata
+  </Card>
+  <Card title="Flight Schedules" icon="calendar-days" href="/api-reference/flight-schedules/daily">
+    Daily and weekly flight schedules
+  </Card>
+  <Card title="Shipments" icon="truck" href="/api-reference/shipment/fwb-capture">
+    Shipment capture and tracking
+  </Card>
+  <Card title="Stock" icon="boxes-stacked" href="/api-reference/stock/create">
+    Stock availability
+  </Card>
+</CardGroup>

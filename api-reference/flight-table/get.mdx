@@ -1,0 +1,42 @@
+---
+title: 'Get Flight Table Data'
+openapi: 'GET /api/flight-table'
+---
+
+Retrieve flight table data for reporting and analysis.
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="flights" type="array">
+    <ParamField name="id" type="integer">
+      Flight record ID
+    </ParamField>
+    <ParamField name="flight" type="string">
+      Flight number
+    </ParamField>
+    <ParamField name="date" type="string" format="date">
+      Flight date
+    </ParamField>
+    <ParamField name="origin" type="string">
+      Origin airport
+    </ParamField>
+    <ParamField name="destination" type="string">
+      Destination airport
+    </ParamField>
+    <ParamField name="weight" type="number">
+      Cargo weight
+    </ParamField>
+    <ParamField name="status" type="string">
+      Flight status
+    </ParamField>
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

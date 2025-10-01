@@ -1,0 +1,51 @@
+---
+title: 'Submit e-DGD'
+openapi: 'POST /api/dangerous-goods'
+---
+
+Submit electronic Dangerous Goods Declaration (e-DGD).
+
+## Request Body
+
+<ParamField body="dangerousGoodsData" type="object" required>
+  Dangerous goods declaration details
+
+  <Expandable title="Dangerous Goods Data Properties">
+    <ParamField body="unNumber" type="string" required>
+      UN number for the dangerous goods
+    </ParamField>
+    <ParamField body="properShippingName" type="string" required>
+      Proper shipping name
+    </ParamField>
+    <ParamField body="class" type="string" required>
+      Hazard class
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="dgdId" type="string">
+    Unique DGD identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Submission status
+  </ParamField>
+</ParamField>
+
+## Response (400)
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

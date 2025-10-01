@@ -1,18 +1,18 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Airport Communiti System",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#1c213e",
+    "light": "#029b5f",
+    "dark": "#1c213e",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#1c213e",
+      "to": "#029b5f"
     }
   },
   "topbarLinks": [
@@ -29,57 +29,119 @@
     {
       "name": "API Reference",
       "url": "api-reference"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "name": "Introduction",
+      "url": "introduction"
     }
   ],
   "navigation": [
-    {
-      "group": "Get Started",
+     {
+      "group": "Airport Community System",
+      "icon": "book-open-cover",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "api-reference/about"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Auth & Bootstrap",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "api-reference/auth/token",
+        "api-reference/me/get"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Reference & Master Data",
       "pages": [
-        "api-reference/introduction"
+        "api-reference/airlines/get",
+        "api-reference/airports/get",
+        "api-reference/commodities/get",
+        "api-reference/shc/get"
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Schedules & Capacity",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/flights/get",
+        "api-reference/capacity/get"
+      ]
+    },
+    {
+      "group": "Quotes",
+      "pages": [
+        "api-reference/quotes/create",
+        "api-reference/quotes/get",
+        "api-reference/quotes/price/create",
+        "api-reference/quotes/respond/create",
+        "api-reference/quotes/decision/create"
+      ]
+    },
+    {
+      "group": "AWB Stock Management",
+      "pages": [
+        "api-reference/awb-stock/create",
+        "api-reference/awb-stock/put",
+        "api-reference/awb-stock/allocations/get"
+      ]
+    },
+    {
+      "group": "Bookings",
+      "pages": [
+        "api-reference/bookings/create",
+        "api-reference/bookings/get",
+        "api-reference/bookings/confirm/create",
+        "api-reference/flights/bookings/get"
+      ]
+    },
+    {
+      "group": "Shipment Documents",
+      "pages": [
+        "api-reference/mawb/create",
+        "api-reference/hawb/create",
+        "api-reference/documents/create"
+      ]
+    },
+    {
+      "group": "Compliance & Safety",
+      "pages": [
+        "api-reference/dangerous-goods/create",
+        "api-reference/placi/create",
+        "api-reference/csd/create"
+      ]
+    },
+    {
+      "group": "Tracking",
+      "pages": [
+        "api-reference/shipments/status/get",
+        "api-reference/shipments/events/create"
+      ]
+    },
+    {
+      "group": "Bonded Trucking & Slots",
+      "pages": [
+        "api-reference/trucking/transit-manifest/create",
+        "api-reference/terminals/slots/create"
+      ]
+    },
+    {
+      "group": "Operational Events & Manifests",
+      "pages": [
+        "api-reference/shipments/events/create",
+        "api-reference/flights/manifests/create",
+        "api-reference/offloads/create"
+      ]
+    },
+    {
+      "group": "Webhooks",
+      "pages": [
+        "api-reference/webhooks/create"
+      ]
+    },
+    {
+      "group": "Admin & Audit",
+      "pages": [
+        "api-reference/audit-logs/get",
+        "api-reference/usage/get"
       ]
     }
   ],

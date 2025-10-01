@@ -1,0 +1,39 @@
+---
+title: 'Request AWB Stock'
+openapi: 'POST /api/awb-stock/requests'
+---
+
+ACA/EPO requests AWB stock from airline.
+
+## Request Body
+
+<ParamField body="requestDetails" type="object">
+  AWB stock request details
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="requestId" type="string">
+    Unique request identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Request status
+  </ParamField>
+</ParamField>
+
+## Response (400)
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

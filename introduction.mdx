@@ -1,6 +1,6 @@
 ---
 title: Introduction
-description: 'Welcome to the home of your new documentation'
+description: 'Welcome to the Flight Management API Documentation'
 ---
 
 <img
@@ -14,58 +14,82 @@ description: 'Welcome to the home of your new documentation'
   alt="Hero Dark"
 />
 
-## Setting up
+## Flight Management API
 
-The first step to world-class documentation is setting up your editing environments.
+This API provides endpoints to retrieve and create flight information, manage airway bills, and generate operational reports for a cargo airline.
 
 <CardGroup cols={2}>
   <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
+    title="Get Started"
+    icon="plane-departure"
+    href="/quickstart"
   >
-    Get your docs set up locally for easy development
+    Set up your development environment and make your first API call
   </Card>
   <Card
     title="Preview Changes"
     icon="image"
-    href="https://mintlify.com/docs/development"
+    href="/development"
   >
-    Preview your changes before you push to make sure they're perfect
+    Run the API documentation locally to test your integrations
   </Card>
 </CardGroup>
 
-## Make it yours
+## API Sections
 
-Update your docs to your brand and add valuable content for the best user conversion.
+<CardGroup cols={3}>
+  <Card
+    title="Flights"
+    icon="plane"
+    href="/api-reference/endpoint/get"
+  >
+    Manage flight schedules, routes, and cargo capacity
+  </Card>
+  <Card
+    title="Airway Bills"
+    icon="file-invoice"
+    href="/api-reference/airway-bills/get"
+  >
+    Create and retrieve airway bills for cargo shipments
+  </Card>
+  <Card
+    title="Reports"
+    icon="chart-line"
+    href="/api-reference/reports/get"
+  >
+    Generate operational reports with detailed analytics
+  </Card>
+</CardGroup>
+
+## Key Features
 
 <CardGroup cols={2}>
   <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
+    title="Cargo Management"
+    icon="boxes-stacked"
+    href="/api-reference/airway-bills/create"
   >
-    Customize your docs to your company's colors and brands
+    Track shipments with comprehensive cargo data and metrics
   </Card>
   <Card
-    title="Reference APIs"
+    title="Route Analysis"
+    icon="route"
+    href="/api-reference/reports/get"
+  >
+    Analyze performance metrics by route with detailed breakdowns
+  </Card>
+  <Card
+    title="Real-time Status"
+    icon="clock"
+    href="/api-reference/endpoint/get"
+  >
+    Monitor flight status with real-time updates and filtering options
+  </Card>
+  <Card
+    title="Interactive API"
     icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
+    href="/api-reference/introduction"
   >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/components/accordion"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
-    Check out our showcase of our favorite documentation
+    Test endpoints directly in the documentation with our API playground
   </Card>
 </CardGroup>

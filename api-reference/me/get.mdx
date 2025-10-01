@@ -1,0 +1,34 @@
+---
+title: 'Get Current User Profile'
+openapi: 'GET /api/me'
+---
+
+Retrieve current user/organization profile information.
+
+## Response (200)
+
+<ParamField status="200" type="UserProfile">
+  <ParamField name="id" type="string">
+    User/organization unique identifier
+  </ParamField>
+  <ParamField name="email" type="string">
+    User email
+  </ParamField>
+  <ParamField name="organization" type="string">
+    Organization name
+  </ParamField>
+  <ParamField name="roles" type="array">
+    List of assigned roles
+  </ParamField>
+  <ParamField name="scopes" type="array">
+    List of granted OAuth2 scopes
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="ErrorResponse">
+  <ParamField name="error" type="string">
+    Unauthorized
+  </ParamField>
+</ParamField>

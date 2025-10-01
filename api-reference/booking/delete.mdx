@@ -1,0 +1,38 @@
+---
+title: 'Cancel Booking'
+openapi: 'DELETE /api/booking'
+---
+
+Cancel an existing booking.
+
+## Request Body
+
+<ParamField body="shipmentReferenceNum" type="string">
+  Shipment reference number to cancel
+</ParamField>
+
+<ParamField body="cancellationReason" type="string">
+  Reason for cancellation
+</ParamField>
+
+<ParamField body="customerDetails" type="object">
+  Customer information for verification
+</ParamField>
+
+<ParamField body="documentDetails" type="object">
+  Document references
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="documentDetails" type="object">
+    Updated document details
+  </ParamField>
+  <ParamField name="cancellationRmks" type="string">
+    Cancellation remarks
+  </ParamField>
+  <ParamField name="cancellationStatus" type="string">
+    Status of the cancellation
+  </ParamField>
+</ParamField>

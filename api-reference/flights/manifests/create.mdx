@@ -1,0 +1,50 @@
+---
+title: 'Submit Flight Manifest'
+openapi: 'POST /api/flights/{id}/manifests'
+---
+
+Submit flight manifest with FFM/XFFM data.
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  Flight ID
+</ParamField>
+
+## Request Body
+
+<ParamField body="FlightManifestRequest" type="object" required>
+  Flight manifest details
+
+  <Expandable title="Manifest Properties">
+    <ParamField body="flightId" type="string" required>
+      Flight ID
+    </ParamField>
+    <ParamField body="awbNumbers" type="array" required>
+      List of AWB numbers
+    </ParamField>
+    <ParamField body="totalPieces" type="integer" required>
+      Total pieces
+    </ParamField>
+    <ParamField body="totalWeight" type="number" required>
+      Total weight
+    </ParamField>
+    <ParamField body="totalVolume" type="number">
+      Total volume
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (201)
+
+<ParamField status="201" type="FlightManifestResponse">
+  <ParamField name="manifestId" type="string">
+    Manifest ID
+  </ParamField>
+  <ParamField name="flightId" type="string">
+    Flight ID
+  </ParamField>
+  <ParamField name="status" type="string">
+    Submission status
+  </ParamField>
+</ParamField>

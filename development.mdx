@@ -1,11 +1,13 @@
 ---
 title: 'Development'
-description: 'Preview changes locally to update your docs'
+description: 'Set up your local environment for Flight Management API development'
 ---
 
 <Info>
   **Prerequisite**: Please install Node.js (version 19 or higher) before proceeding.
 </Info>
+
+## Running the documentation locally
 
 Follow these steps to install and run Mintlify on your operating system:
 
@@ -31,7 +33,45 @@ mintlify dev
 
 A local preview of your documentation will be available at `http://localhost:3000`.
 
-### Custom Ports
+## Working with the Flight Management API
+
+### Local development server
+
+For local development and testing, the Flight Management API can be accessed at:
+
+```
+http://localhost:3001
+```
+
+This server includes all endpoints defined in the API specification and allows you to test your integrations locally before connecting to the production server.
+
+### Production server
+
+For production use, the Flight Management API is available at:
+
+```
+https://mock-server-hazel-tau.vercel.app/
+```
+
+### Testing API endpoints
+
+You can use tools like Postman, Insomnia, or cURL to test API endpoints. Here's an example of a basic request to retrieve flight data:
+
+```bash
+curl -X GET "http://localhost:3001/api/flights?limit=10" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+### Available endpoints
+
+The Flight Management API provides the following main endpoints:
+
+1. **Flights**: `/api/flights` - Manage flight data and schedules
+2. **Airway Bills**: `/api/airway-bills` - Create and retrieve airway bills
+3. **Reports**: `/api/reports` - Generate operational reports
+
+## Custom Ports
 
 By default, Mintlify uses port 3000. You can customize the port Mintlify runs on by using the `--port` flag. To run Mintlify on port 3333, for instance, use this command:
 
@@ -100,6 +140,16 @@ We suggest using extensions on your IDE to recognize and format MDX. If you're a
   <Accordion title="Issue: Encountering an unknown error">
   
     Solution: Go to the root of your device and delete the \~/.mintlify folder. Afterwards, run `mintlify dev` again.
+  </Accordion>
+  
+  <Accordion title="API request fails with 401 Unauthorized">
+  
+    Make sure you're including a valid API key in the Authorization header. Check that your API key hasn't expired and has the correct permissions.
+  </Accordion>
+  
+  <Accordion title="Cannot connect to the API server">
+  
+    If you're using the local development server, make sure it's running on the correct port (default is 3001). Check for any firewall or network restrictions that might be blocking the connection.
   </Accordion>
 </AccordionGroup>
 

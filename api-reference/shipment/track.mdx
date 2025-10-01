@@ -1,0 +1,32 @@
+---
+title: 'Shipment Tracking'
+openapi: 'POST /api/shipment/track'
+---
+
+Track shipments by AWB(s).
+
+## Request Body
+
+<ParamField body="cargoTrackingRequestSOs" type="array" required>
+  Array of tracking request objects
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="trackingResults" type="array">
+    Array of tracking result objects
+
+    <Expandable title="Tracking Result Properties">
+      <ParamField body="awb" type="string">
+        AWB identifier
+      </ParamField>
+      <ParamField body="status" type="string">
+        Current status
+      </ParamField>
+      <ParamField body="events" type="array">
+        Timeline events
+      </ParamField>
+    </Expandable>
+  </ParamField>
+</ParamField>

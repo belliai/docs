@@ -1,0 +1,54 @@
+---
+title: 'Submit Flight Schedule'
+openapi: 'POST /api/flights/schedule'
+---
+
+Submit flight schedule information for cargo operations.
+
+## Request Body
+
+<ParamField body="flightDetails" type="object" required>
+  Flight schedule details
+
+  <Expandable title="Flight Details Properties">
+    <ParamField body="flightNumber" type="string" required>
+      Flight number (e.g., PK-751)
+    </ParamField>
+    <ParamField body="date" type="string" format="date" required>
+      Flight date (YYYY-MM-DD)
+    </ParamField>
+    <ParamField body="origin" type="string" required>
+      Origin airport code
+    </ParamField>
+    <ParamField body="destination" type="string" required>
+      Destination airport code
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="scheduleId" type="string">
+    Unique schedule identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Submission status
+  </ParamField>
+</ParamField>
+
+## Response (400)
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

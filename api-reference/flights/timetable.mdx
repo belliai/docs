@@ -1,0 +1,50 @@
+---
+title: 'Get Flight Timetables'
+openapi: 'GET /api/flights'
+---
+
+Retrieve flight timetables and leg information.
+
+## Query Parameters
+
+<ParamField query="origin" type="string" required>
+  Origin airport IATA code
+</ParamField>
+
+<ParamField query="destination" type="string" required>
+  Destination airport IATA code
+</ParamField>
+
+<ParamField query="date" type="string" format="date" required>
+  Flight date
+</ParamField>
+
+<ParamField query="airline" type="string">
+  Filter by airline IATA code
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="array">
+  <ParamField name="flight_number" type="string">
+    Flight number
+  </ParamField>
+  <ParamField name="airline" type="string">
+    Airline IATA code
+  </ParamField>
+  <ParamField name="origin" type="string">
+    Origin airport
+  </ParamField>
+  <ParamField name="destination" type="string">
+    Destination airport
+  </ParamField>
+  <ParamField name="departure_time" type="string" format="date-time">
+    Scheduled departure time
+  </ParamField>
+  <ParamField name="arrival_time" type="string" format="date-time">
+    Scheduled arrival time
+  </ParamField>
+  <ParamField name="aircraft_type" type="string">
+    Aircraft type
+  </ParamField>
+</ParamField>

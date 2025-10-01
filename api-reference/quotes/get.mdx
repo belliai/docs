@@ -1,0 +1,41 @@
+---
+title: 'Get Quote Details'
+openapi: 'GET /api/quotes/{id}'
+---
+
+Retrieve RFQ details and lifecycle status.
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  Quote identifier
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="quote_id" type="string">
+    Unique quote identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Quote status (pending, priced, expired)
+  </ParamField>
+  <ParamField name="origin" type="string">
+    Origin airport
+  </ParamField>
+  <ParamField name="destination" type="string">
+    Destination airport
+  </ParamField>
+  <ParamField name="pieces" type="integer">
+    Number of pieces
+  </ParamField>
+  <ParamField name="weight" type="number">
+    Total weight
+  </ParamField>
+  <ParamField name="created_at" type="string" format="date-time">
+    Creation timestamp
+  </ParamField>
+  <ParamField name="expires_at" type="string" format="date-time">
+    Expiration timestamp
+  </ParamField>
+</ParamField>

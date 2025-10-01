@@ -1,0 +1,51 @@
+---
+title: 'Submit Cargo Acceptance'
+openapi: 'POST /api/cargo-acceptance'
+---
+
+Submit cargo acceptance documentation.
+
+## Request Body
+
+<ParamField body="cargoAcceptanceData" type="object" required>
+  Cargo acceptance details
+
+  <Expandable title="Cargo Acceptance Data Properties">
+    <ParamField body="awbNumber" type="string" required>
+      Air Waybill number
+    </ParamField>
+    <ParamField body="cargoDescription" type="string" required>
+      Description of cargo
+    </ParamField>
+    <ParamField body="acceptanceDate" type="string" format="date" required>
+      Date of acceptance
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="acceptanceId" type="string">
+    Unique acceptance identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Submission status
+  </ParamField>
+</ParamField>
+
+## Response (400)
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

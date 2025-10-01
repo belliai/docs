@@ -1,0 +1,46 @@
+---
+title: 'Weekly Flight Schedules'
+openapi: 'POST /api/flight-schedules/weekly'
+---
+
+Retrieve weekly flight routes between origin and destination starting from a week start date.
+
+## Request Body
+
+<ParamField body="origin" type="string" required>
+  Origin airport code
+</ParamField>
+
+<ParamField body="destination" type="string" required>
+  Destination airport code
+</ParamField>
+
+<ParamField body="weekStartDate" type="string" format="date" required>
+  Week start date (YYYY-MM-DD)
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="routes" type="array">
+    Array of route objects
+
+    <Expandable title="Route Properties">
+      <ParamField body="carrier" type="string">
+        Carrier
+      </ParamField>
+      <ParamField body="flightNumber" type="string">
+        Flight number
+      </ParamField>
+      <ParamField body="daysOfWeek" type="array">
+        Days of operation (e.g., ["Mon","Wed","Fri"]) 
+      </ParamField>
+      <ParamField body="origin" type="string">
+        Origin airport code
+      </ParamField>
+      <ParamField body="destination" type="string">
+        Destination airport code
+      </ParamField>
+    </Expandable>
+  </ParamField>
+</ParamField>

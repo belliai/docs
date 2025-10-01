@@ -1,0 +1,68 @@
+---
+title: 'Create Booking'
+openapi: 'POST /api/booking'
+---
+
+Create a booking for a shipment.
+
+## Request Body
+
+<ParamField body="customerDetails" type="object" required>
+  Customer contact and account information
+</ParamField>
+
+<ParamField body="documentDetails" type="object" required>
+  Document references and AWB information
+</ParamField>
+
+<ParamField body="productCommodityDetails" type="object" required>
+  Product and commodity meta data
+</ParamField>
+
+<ParamField body="shipmentDimensions" type="array">
+  Array of dimension objects (length, width, height, unit, pieces)
+</ParamField>
+
+<ParamField body="shipmentQuantityDetails" type="object" required>
+  Quantity and weight summary
+</ParamField>
+
+<ParamField body="requestRefId" type="string" required>
+  Client request reference id
+</ParamField>
+
+<ParamField body="requestType" type="string" required>
+  Type of booking request
+</ParamField>
+
+<ParamField body="flightItineraries" type="array" required>
+  Flight itinerary objects
+</ParamField>
+
+<ParamField body="source" type="string">
+  Source identifier
+</ParamField>
+
+<ParamField body="callBackURL" type="string">
+  Optional callback URL for booking status
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="shipmentReferenceNum" type="string">
+    Assigned shipment reference number
+  </ParamField>
+  <ParamField name="currentBookingStatus" type="string">
+    Booking status
+  </ParamField>
+  <ParamField name="bookingCaptured" type="boolean">
+    True when booking is captured
+  </ParamField>
+  <ParamField name="createdAt" type="string" format="date-time">
+    Creation timestamp
+  </ParamField>
+  <ParamField name="businessErrors" type="array">
+    Array of business error objects (if any)
+  </ParamField>
+</ParamField>

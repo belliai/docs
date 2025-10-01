@@ -1,0 +1,39 @@
+---
+title: 'Get Airway Bill Table Data'
+openapi: 'GET /api/airway-bill-table'
+---
+
+Retrieve airway bill table data for reporting and analysis.
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="airwayBills" type="array">
+    <ParamField name="id" type="integer">
+      Airway bill record ID
+    </ParamField>
+    <ParamField name="awbNumber" type="string">
+      Air Waybill number
+    </ParamField>
+    <ParamField name="pieces" type="integer">
+      Number of pieces
+    </ParamField>
+    <ParamField name="chargedWeight" type="number">
+      Charged weight
+    </ParamField>
+    <ParamField name="shipper" type="string">
+      Shipper name
+    </ParamField>
+    <ParamField name="consignee" type="string">
+      Consignee name
+    </ParamField>
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

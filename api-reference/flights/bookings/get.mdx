@@ -1,0 +1,30 @@
+---
+title: 'Get Flight Bookings'
+openapi: 'GET /api/flights/{id}/bookings'
+---
+
+Retrieve list of bookings for a specific flight (to share with GHA).
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  Flight ID
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="date" type="string" format="date">
+  Flight date
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter by booking status
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="FlightBookingsResponse">
+  <ParamField name="bookings" type="array">
+    List of bookings
+  </ParamField>
+</ParamField>

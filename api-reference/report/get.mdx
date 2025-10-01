@@ -1,0 +1,30 @@
+---
+title: 'Get Operational Reports'
+openapi: 'GET /api/report'
+---
+
+Generate operational reports based on date range and currency.
+
+## Query Parameters
+
+<ParamField query="startDate" type="string" format="date" default="2023-01-01">
+  Start date for report period (YYYY-MM-DD)
+</ParamField>
+
+<ParamField query="endDate" type="string" format="date" default="2023-12-31">
+  End date for report period (YYYY-MM-DD)
+</ParamField>
+
+<ParamField query="currency" type="string" default="USD">
+  Currency for financial figures (USD, EUR, GBP, PKR, AED, SAR)
+</ParamField>
+
+## Response
+
+The report contains detailed operational metrics including:
+
+- Total revenue and revenue per kg
+- Flight utilization statistics
+- Route performance analysis
+- On-time performance metrics
+- Top commodity types and shippers

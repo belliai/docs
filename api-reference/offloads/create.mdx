@@ -1,0 +1,47 @@
+---
+title: 'Report Offloads'
+openapi: 'POST /api/offloads'
+---
+
+Report offloaded or short-shipped pieces.
+
+## Request Body
+
+<ParamField body="OffloadRequest" type="object" required>
+  Offload details
+
+  <Expandable title="Offload Properties">
+    <ParamField body="awbNumber" type="string" required>
+      AWB number
+    </ParamField>
+    <ParamField body="flightId" type="string" required>
+      Flight ID
+    </ParamField>
+    <ParamField body="reason" type="string" required>
+      Reason for offload
+    </ParamField>
+    <ParamField body="pieces" type="integer">
+      Number of pieces offloaded
+    </ParamField>
+    <ParamField body="weight" type="number">
+      Weight offloaded
+    </ParamField>
+    <ParamField body="notes" type="string">
+      Additional notes
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (201)
+
+<ParamField status="201" type="OffloadResponse">
+  <ParamField name="offloadId" type="string">
+    Offload report ID
+  </ParamField>
+  <ParamField name="awbNumber" type="string">
+    AWB number
+  </ParamField>
+  <ParamField name="status" type="string">
+    Report status
+  </ParamField>
+</ParamField>

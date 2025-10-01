@@ -1,0 +1,36 @@
+---
+title: 'Get PLACI Risk Assessment'
+openapi: 'GET /api/placi/{placiId}/risk-assessment'
+---
+
+Get risk assessment for a PLACI submission.
+
+## Path Parameters
+
+<ParamField path="placiId" type="string" required>
+  Unique PLACI identifier
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="placiId" type="string">
+    PLACI identifier
+  </ParamField>
+  <ParamField name="riskLevel" type="string">
+    Risk assessment level
+  </ParamField>
+  <ParamField name="assessmentDetails" type="object">
+    <ParamField name="recommendations" type="array">
+      Risk mitigation recommendations
+    </ParamField>
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

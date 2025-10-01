@@ -1,86 +1,158 @@
 ---
 title: 'Quickstart'
-description: 'Start building awesome documentation in under 5 minutes'
+description: 'Start using the Flight Management API in under 5 minutes'
 ---
 
-## Setup your development
+## Setup your development environment
 
-Learn how to update your docs locally and deploy them to the public.
+Learn how to set up your development environment and make your first API request to the Flight Management API.
 
-### Edit and preview
+### Development setup
 
 <AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
+  <Accordion icon="github" title="Clone the API client repository">
+    During the onboarding process, we created a repository with sample code to help you get started. You can find this repository on our
     [dashboard](https://dashboard.mintlify.com). To clone the repository
     locally, follow these
     [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
     in your terminal.
   </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
+  <Accordion icon="rectangle-terminal" title="Preview the documentation locally">
+    Previewing helps you make sure your integrations work as intended. We built a
+    command line interface to render these changes locally. 
+    
+    1. Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
+    documentation changes locally with this command: 
+    ```bash
+    npm i -g mintlify
+    ```
+    
     2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
+    `mint.json` is): 
+    ```bash
+    mintlify dev
+    ```
   </Accordion>
 </AccordionGroup>
 
-### Deploy your changes
+### Authentication
 
 <AccordionGroup>
-
-<Accordion icon="message-bot" title="Install our Github app">
-  Our Github app automatically deploys your changes to your docs site, so you
-  don't need to manage deployments yourself. You can find the link to install on
-  your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-  successfully installed, there should be a check mark next to the commit hash
-  of the repo.
-</Accordion>
-<Accordion icon="rocket" title="Push your changes">
-  [Commit and push your changes to
-  Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-  for your changes to update in your docs site. If you push and don't see that
-  the Github app successfully deployed your changes, you can also manually
-  update your docs through our [dashboard](https://dashboard.mintlify.com).
-</Accordion>
-
+  <Accordion icon="key" title="Get your API key">
+    To access the Flight Management API, you need an API key. Visit our [dashboard](https://dashboard.mintlify.com) to create an API key for your account. Keep this key secure as it provides access to all API endpoints.
+  </Accordion>
+  <Accordion icon="lock" title="Using your API key">
+    Include your API key in all requests to the API as a bearer token in the Authorization header:
+    
+    ```bash
+    curl -X GET "https://mock-server-hazel-tau.vercel.app/api/flights" \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Accordion>
 </AccordionGroup>
 
-## Update your docs
+## Make your first API request
 
-Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
+Let's make a simple request to get a list of flights using the Flight Management API.
+
+### Example request
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://mock-server-hazel-tau.vercel.app/api/flights?limit=5" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+```javascript Node.js
+const axios = require('axios');
+
+async function getFlights() {
+  try {
+    const response = await axios.get('https://mock-server-hazel-tau.vercel.app/api/flights', {
+      params: { limit: 5 },
+      headers: {
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.error('Error fetching flights:', error);
+  }
+}
+
+getFlights();
+```
+
+```python Python
+import requests
+
+url = "https://mock-server-hazel-tau.vercel.app/api/flights"
+params = {"limit": 5}
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+
+response = requests.get(url, params=params, headers=headers)
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "flight": "PK202",
+      "date": "2023-05-15",
+      "origin": "KHI",
+      "departureTime": "10:30",
+      "destination": "DXB",
+      "arrivalTime": "12:45",
+      "weight": 12500,
+      "volume": 450,
+      "status": "Scheduled",
+      "baseRate": 3.25,
+      "outputRate": 3.45,
+      "aircraftType": "Boeing 777-300ER"
+    },
+    // Additional flight objects...
+  ],
+  "pagination": {
+    "total": 50,
+    "page": 1,
+    "limit": 5,
+    "pages": 10
+  }
+}
+```
+
+## Next steps
+
+Now that you've made your first API request, explore the following resources to learn more about the Flight Management API:
 
 <CardGroup>
 
-<Card title="Style Your Docs" icon="paintbrush" href="/settings/global">
-  Add flair to your docs with personalized branding.
+<Card title="Explore Flights API" icon="plane" href="/api-reference/endpoint/get">
+  Learn about retrieving and creating flight data
 </Card>
 
-<Card
-  title="Add API Endpoints"
-  icon="square-code"
-  href="/api-playground/configuration"
->
-  Implement your OpenAPI spec and enable API user interaction.
+<Card title="Manage Airway Bills" icon="file-invoice" href="/api-reference/airway-bills/get">
+  Create and retrieve airway bills for cargo shipments
 </Card>
 
-<Card
-  title="Integrate Analytics"
-  icon="chart-mixed"
-  href="/analytics/supported-integrations"
->
-  Draw insights from user interactions with your documentation.
+<Card title="Generate Reports" icon="chart-line" href="/api-reference/reports/get">
+  Get detailed operational reports and analytics
 </Card>
 
-<Card
-  title="Host on a Custom Domain"
-  icon="browser"
-  href="/settings/custom-domain/subdomain"
->
-  Keep your docs on your own website's subdomain.
+<Card title="Development Guide" icon="code" href="/development">
+  Set up your local development environment
 </Card>
 
 </CardGroup>

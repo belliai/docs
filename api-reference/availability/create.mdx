@@ -1,0 +1,92 @@
+---
+title: 'Search Availability'
+openapi: 'POST /api/availability'
+---
+
+Search availability and rates between two locations.
+
+## Request Body
+
+<ParamField body="origin" type="string" required>
+  Origin airport code (e.g., CDG)
+</ParamField>
+
+<ParamField body="destination" type="string" required>
+  Destination airport code (e.g., BOM)
+</ParamField>
+
+<ParamField body="routingPreference" type="object" required>
+  Routing preferences and date
+
+  <Expandable title="Routing Preference Properties">
+    <ParamField body="scheduledDepartureDate" type="string" format="date" required>
+      Preferred departure date (YYYY-MM-DD)
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="availabilityResponseSOs" type="array">
+    Array of available options
+    
+    <Expandable title="Availability Item Properties">
+      <ParamField body="id" type="integer" required>
+        Internal availability id
+      </ParamField>
+      <ParamField body="carrier" type="string" required>
+        Carrier name
+      </ParamField>
+      <ParamField body="flightNumber" type="string" required>
+        Flight number
+      </ParamField>
+      <ParamField body="origin" type="string" required>
+        Origin airport code
+      </ParamField>
+      <ParamField body="destination" type="string" required>
+        Destination airport code
+      </ParamField>
+      <ParamField body="departureDate" type="string" format="date" required>
+        Departure date (YYYY-MM-DD)
+      </ParamField>
+      <ParamField body="availablePieces" type="integer">
+        Available pieces
+      </ParamField>
+      <ParamField body="availableWeight" type="integer">
+        Available weight in kg
+      </ParamField>
+
+      <ParamField body="rate" type="object" required>
+        Rate details
+        
+        <Expandable title="Rate Properties">
+          <ParamField body="currencyCode" type="string" required>
+            Currency code (e.g., USD)
+          </ParamField>
+          <ParamField body="ratePerKilo" type="number" required>
+            Rate per kg
+          </ParamField>
+          <ParamField body="chargeableWeight" type="number" required>
+            Chargeable weight used for rate calculation
+          </ParamField>
+          <ParamField body="totalAmount" type="number" required>
+            Total amount for the option
+          </ParamField>
+        </Expandable>
+      </ParamField>
+    </Expandable>
+  </ParamField>
+
+  <ParamField name="pagination" type="object">
+    <ParamField body="total" type="integer">
+      Total results
+    </ParamField>
+    <ParamField body="page" type="integer">
+      Current page
+    </ParamField>
+    <ParamField body="limit" type="integer">
+      Page size
+    </ParamField>
+  </ParamField>
+</ParamField>

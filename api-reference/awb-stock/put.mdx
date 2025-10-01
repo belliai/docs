@@ -1,0 +1,45 @@
+---
+title: 'Reply to AWB Stock Request'
+openapi: 'PUT /api/awb-stock/reply/{requestId}'
+---
+
+Reply to an AWB stock request.
+
+## Path Parameters
+
+<ParamField path="requestId" type="string" required>
+  Unique request identifier
+</ParamField>
+
+## Request Body
+
+<ParamField body="replyDetails" type="object">
+  Reply details for the AWB stock request
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="requestId" type="string">
+    Unique request identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Updated request status
+  </ParamField>
+</ParamField>
+
+## Response (400)
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

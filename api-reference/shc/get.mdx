@@ -1,0 +1,32 @@
+---
+title: 'Get Special Handling Codes'
+openapi: 'GET /api/shc'
+---
+
+Retrieve list of Special Handling Codes (SHC) for cargo.
+
+## Query Parameters
+
+<ParamField query="code" type="string">
+  Filter by SHC code
+</ParamField>
+
+<ParamField query="name" type="string">
+  Filter by SHC name
+</ParamField>
+
+<ParamField query="category" type="string">
+  Filter by category
+</ParamField>
+
+<ParamField query="requiresApproval" type="boolean">
+  Filter by approval requirement
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="SHCResponse">
+  <ParamField name="shcCodes" type="array">
+    List of SHC codes
+  </ParamField>
+</ParamField>

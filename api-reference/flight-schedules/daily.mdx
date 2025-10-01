@@ -1,0 +1,65 @@
+---
+title: 'Daily Flight Schedules'
+openapi: 'POST /api/flight-schedules/daily'
+---
+
+Retrieve daily flight schedules between origin and destination for a specific date.
+
+## Request Body
+
+<ParamField body="origin" type="string" required>
+  Origin airport code
+</ParamField>
+
+<ParamField body="destination" type="string" required>
+  Destination airport code
+</ParamField>
+
+<ParamField body="date" type="string" format="date" required>
+  Date for schedules (YYYY-MM-DD)
+</ParamField>
+
+<ParamField body="filters" type="object">
+  Optional filters
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="schedules" type="array">
+    Array of schedule objects
+
+    <Expandable title="Schedule Properties">
+      <ParamField body="carrier" type="string">
+        Carrier code or name
+      </ParamField>
+      <ParamField body="flightNumber" type="string">
+        Flight number
+      </ParamField>
+      <ParamField body="origin" type="string">
+        Origin airport code
+      </ParamField>
+      <ParamField body="destination" type="string">
+        Destination airport code
+      </ParamField>
+      <ParamField body="departureTime" type="string">
+        Departure time
+      </ParamField>
+      <ParamField body="arrivalTime" type="string">
+        Arrival time
+      </ParamField>
+      <ParamField body="capacity" type="object">
+        Capacity details
+
+        <Expandable title="Capacity Properties">
+          <ParamField body="availablePieces" type="integer">
+            Available pieces
+          </ParamField>
+          <ParamField body="availableWeight" type="number">
+            Available weight in kg
+          </ParamField>
+        </Expandable>
+      </ParamField>
+    </Expandable>
+  </ParamField>
+</ParamField>

@@ -1,0 +1,47 @@
+---
+title: 'Create MAWB'
+openapi: 'POST /api/mawb'
+---
+
+Create/submit Master Air Waybill (MAWB) with FWB/XFWB data elements.
+
+## Request Body
+
+<ParamField body="mawb_data" type="object" required>
+  MAWB details
+
+  <Expandable title="MAWB Data Properties">
+    <ParamField body="awb_number" type="string" required>
+      Master AWB number
+    </ParamField>
+    <ParamField body="origin" type="string" required>
+      Origin airport
+    </ParamField>
+    <ParamField body="destination" type="string" required>
+      Destination airport
+    </ParamField>
+    <ParamField body="total_pieces" type="integer" required>
+      Total number of pieces
+    </ParamField>
+    <ParamField body="total_weight" type="number" required>
+      Total weight
+    </ParamField>
+    <ParamField body="nature_of_goods" type="string" required>
+      Nature of goods
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="mawb_id" type="string">
+    Unique MAWB identifier
+  </ParamField>
+  <ParamField name="awb_number" type="string">
+    MAWB number
+  </ParamField>
+  <ParamField name="status" type="string">
+    Submission status
+  </ParamField>
+</ParamField>

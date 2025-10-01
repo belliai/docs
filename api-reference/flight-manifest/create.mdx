@@ -1,0 +1,51 @@
+---
+title: 'Submit Flight Manifest'
+openapi: 'POST /api/flight-manifest'
+---
+
+Submit flight manifest for cargo operations.
+
+## Request Body
+
+<ParamField body="flightManifestData" type="object" required>
+  Flight manifest details
+
+  <Expandable title="Flight Manifest Data Properties">
+    <ParamField body="flightNumber" type="string" required>
+      Flight number
+    </ParamField>
+    <ParamField body="date" type="string" format="date" required>
+      Flight date
+    </ParamField>
+    <ParamField body="cargoList" type="array" required>
+      List of cargo items on the flight
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="manifestId" type="string">
+    Unique manifest identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Submission status
+  </ParamField>
+</ParamField>
+
+## Response (400)
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

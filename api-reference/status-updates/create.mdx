@@ -1,0 +1,51 @@
+---
+title: 'Send Status Update (FSU)'
+openapi: 'POST /api/status-updates'
+---
+
+Send Flight Status Update (FSU) message.
+
+## Request Body
+
+<ParamField body="statusUpdate" type="object" required>
+  Status update details
+
+  <Expandable title="Status Update Properties">
+    <ParamField body="flightNumber" type="string" required>
+      Flight number
+    </ParamField>
+    <ParamField body="status" type="string" required>
+      Flight status (e.g., DEP, ARR, DEL)
+    </ParamField>
+    <ParamField body="timestamp" type="string" format="date-time" required>
+      Status timestamp
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="updateId" type="string">
+    Unique status update identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Update status
+  </ParamField>
+</ParamField>
+
+## Response (400)
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

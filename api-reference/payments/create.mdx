@@ -1,0 +1,54 @@
+---
+title: 'Process Payment'
+openapi: 'POST /api/payments'
+---
+
+Process payment for cargo services.
+
+## Request Body
+
+<ParamField body="paymentData" type="object" required>
+  Payment processing details
+
+  <Expandable title="Payment Data Properties">
+    <ParamField body="amount" type="number" required>
+      Payment amount
+    </ParamField>
+    <ParamField body="currency" type="string" required>
+      Currency code (e.g., USD)
+    </ParamField>
+    <ParamField body="paymentMethod" type="string" required>
+      Payment method
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="paymentId" type="string">
+    Unique payment identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Payment status
+  </ParamField>
+  <ParamField name="transactionId" type="string">
+    Payment gateway transaction ID
+  </ParamField>
+</ParamField>
+
+## Response (400)
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

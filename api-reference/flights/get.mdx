@@ -1,0 +1,43 @@
+---
+title: 'Get Flight Timetables'
+openapi: 'GET /api/flights'
+---
+
+Retrieve flight timetables and leg information.
+
+## Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number
+</ParamField>
+
+<ParamField query="limit" type="integer" default="10">
+  Items per page
+</ParamField>
+
+<ParamField query="origin" type="string">
+  Filter by origin airport
+</ParamField>
+
+<ParamField query="destination" type="string">
+  Filter by destination airport
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter by flight status
+</ParamField>
+
+<ParamField query="date" type="string" format="date">
+  Filter by flight date
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="FlightsResponse">
+  <ParamField name="flights" type="array">
+    List of flights
+  </ParamField>
+  <ParamField name="pagination" type="Pagination">
+    Pagination information
+  </ParamField>
+</ParamField>

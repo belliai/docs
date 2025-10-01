@@ -1,0 +1,36 @@
+---
+title: 'Get Flight Capacity'
+openapi: 'GET /api/capacity'
+---
+
+Get per-flight capacity snapshot with projected/actual weights and volumes.
+
+## Query Parameters
+
+<ParamField query="flightNumber" type="string">
+  Filter by flight number
+</ParamField>
+
+<ParamField query="origin" type="string">
+  Filter by origin
+</ParamField>
+
+<ParamField query="destination" type="string">
+  Filter by destination
+</ParamField>
+
+<ParamField query="date" type="string" format="date">
+  Filter by date
+</ParamField>
+
+<ParamField query="aircraftType" type="string">
+  Filter by aircraft type
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="CapacityResponse">
+  <ParamField name="capacity" type="array">
+    List of capacity snapshots
+  </ParamField>
+</ParamField>

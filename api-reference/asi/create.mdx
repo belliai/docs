@@ -1,0 +1,51 @@
+---
+title: 'Send ASI'
+openapi: 'POST /api/asi'
+---
+
+Send Advanced Shipment Information (ASI) for cargo.
+
+## Request Body
+
+<ParamField body="asiData" type="object" required>
+  ASI shipment details
+
+  <Expandable title="ASI Data Properties">
+    <ParamField body="awbNumber" type="string" required>
+      Air Waybill number
+    </ParamField>
+    <ParamField body="origin" type="string" required>
+      Origin airport code
+    </ParamField>
+    <ParamField body="destination" type="string" required>
+      Destination airport code
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="asiId" type="string">
+    Unique ASI identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Submission status
+  </ParamField>
+</ParamField>
+
+## Response (400)
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

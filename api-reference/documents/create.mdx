@@ -1,0 +1,48 @@
+---
+title: 'Upload Documents'
+openapi: 'POST /api/documents'
+---
+
+Upload ancillary documents (MSDS, COO, COI, etc.) for digital pouch.
+
+## Request Body
+
+<ParamField body="awb_number" type="string" required>
+  Associated AWB number
+</ParamField>
+
+<ParamField body="document_type" type="string" required>
+  Document type (MSDS, COO, COI, etc.)
+</ParamField>
+
+<ParamField body="file" type="string" format="binary" required>
+  Document file (binary data)
+</ParamField>
+
+<ParamField body="filename" type="string" required>
+  Original filename
+</ParamField>
+
+<ParamField body="description" type="string">
+  Document description
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="document_id" type="string">
+    Unique document identifier
+  </ParamField>
+  <ParamField name="awb_number" type="string">
+    Associated AWB number
+  </ParamField>
+  <ParamField name="filename" type="string">
+    Uploaded filename
+  </ParamField>
+  <ParamField name="status" type="string">
+    Upload status
+  </ParamField>
+  <ParamField name="uploaded_at" type="string" format="date-time">
+    Upload timestamp
+  </ParamField>
+</ParamField>

@@ -1,0 +1,46 @@
+---
+title: 'Get Booking Details'
+openapi: 'GET /api/bookings/{id}'
+---
+
+Retrieve booking details and status.
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  Booking identifier
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="BookingResponseACS">
+  <ParamField name="bookingId" type="string">
+    Unique booking identifier
+  </ParamField>
+  <ParamField name="awbNumber" type="string">
+    Air Waybill number
+  </ParamField>
+  <ParamField name="status" type="string">
+    Booking status
+  </ParamField>
+  <ParamField name="flightDetails" type="object">
+    Flight details
+  </ParamField>
+  <ParamField name="shipment" type="object">
+    Shipment information
+  </ParamField>
+  <ParamField name="validUntil" type="string" format="date-time">
+    Validity end time
+  </ParamField>
+  <ParamField name="createdAt" type="string" format="date-time">
+    Creation timestamp
+  </ParamField>
+</ParamField>
+
+## Response (404)
+
+<ParamField status="404" type="ErrorResponse">
+  <ParamField name="error" type="string">
+    Booking not found
+  </ParamField>
+</ParamField>

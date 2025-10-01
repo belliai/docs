@@ -1,0 +1,23 @@
+---
+title: 'Service Status'
+openapi: 'GET /api/status'
+---
+
+Simple health check endpoint returning service metadata.
+
+## Responses
+
+<ParamField status="200" type="object">
+  <ParamField name="success" type="boolean" required>
+    True when service is healthy
+  </ParamField>
+  <ParamField name="apiName" type="string" required>
+    API name
+  </ParamField>
+  <ParamField name="version" type="string" required>
+    API version
+  </ParamField>
+  <ParamField name="timestamp" type="string" format="date-time" required>
+    Server timestamp in ISO 8601
+  </ParamField>
+</ParamField>

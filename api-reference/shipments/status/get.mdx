@@ -1,0 +1,48 @@
+---
+title: 'Get Shipment Status'
+openapi: 'GET /api/shipments/{awb}/status'
+---
+
+Retrieve end-to-end tracking timeline with events and documents.
+
+## Path Parameters
+
+<ParamField path="awb" type="string" required>
+  Air Waybill number
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="awb_number" type="string">
+    Air Waybill number
+  </ParamField>
+  <ParamField name="current_status" type="string">
+    Current shipment status
+  </ParamField>
+  <ParamField name="events" type="array">
+    <ParamField name="event_code" type="string">
+      Event code (RCS, MAN, DEP, ARR, etc.)
+    </ParamField>
+    <ParamField name="description" type="string">
+      Event description
+    </ParamField>
+    <ParamField name="location" type="string">
+      Event location
+    </ParamField>
+    <ParamField name="timestamp" type="string" format="date-time">
+      Event timestamp
+    </ParamField>
+  </ParamField>
+  <ParamField name="documents" type="array">
+    <ParamField name="document_id" type="string">
+      Document identifier
+    </ParamField>
+    <ParamField name="type" type="string">
+      Document type
+    </ParamField>
+    <ParamField name="filename" type="string">
+      Document filename
+    </ParamField>
+  </ParamField>
+</ParamField>

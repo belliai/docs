@@ -1,0 +1,39 @@
+---
+title: 'Stock Availability'
+openapi: 'POST /api/stock'
+---
+
+Retrieve next available stock assignments for a booking request city.
+
+## Request Body
+
+<ParamField body="customerDetails" type="object" required>
+  Customer information
+</ParamField>
+
+<ParamField body="bookingRequestedCity" type="string" required>
+  City where booking is requested
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="stockAssignments" type="array">
+    Array of stock assignment objects
+
+    <Expandable title="Stock Assignment Properties">
+      <ParamField body="nextAvailableCity" type="string">
+        City
+      </ParamField>
+      <ParamField body="flightNumber" type="string">
+        Flight number
+      </ParamField>
+      <ParamField body="availablePieces" type="integer">
+        Available pieces
+      </ParamField>
+      <ParamField body="availableWeight" type="number">
+        Available weight in kg
+      </ParamField>
+    </Expandable>
+  </ParamField>
+</ParamField>

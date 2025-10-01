@@ -1,0 +1,51 @@
+---
+title: 'Create Digital Pouch'
+openapi: 'POST /api/digital-pouch'
+---
+
+Create a digital pouch for document exchange.
+
+## Request Body
+
+<ParamField body="pouchData" type="object" required>
+  Digital pouch creation details
+
+  <Expandable title="Pouch Data Properties">
+    <ParamField body="pouchType" type="string" required>
+      Type of digital pouch
+    </ParamField>
+    <ParamField body="recipient" type="string" required>
+      Recipient information
+    </ParamField>
+    <ParamField body="documents" type="array" required>
+      List of documents to include
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (200)
+
+<ParamField status="200" type="object">
+  <ParamField name="pouchId" type="string">
+    Unique digital pouch identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Creation status
+  </ParamField>
+</ParamField>
+
+## Response (400)
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+## Response (401)
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>

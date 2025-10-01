@@ -1,0 +1,41 @@
+---
+title: 'Submit e-CSD'
+openapi: 'POST /api/csd'
+---
+
+Submit electronic Cargo Security Declaration.
+
+## Request Body
+
+<ParamField body="CSDRequest" type="object" required>
+  CSD details
+
+  <Expandable title="CSD Properties">
+    <ParamField body="awbNumber" type="string" required>
+      AWB number
+    </ParamField>
+    <ParamField body="screeningMethod" type="string" required>
+      Screening method
+    </ParamField>
+    <ParamField body="screeningDate" type="string" format="date-time" required>
+      Screening date
+    </ParamField>
+    <ParamField body="screeningResult" type="string" required>
+      Screening result
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response (201)
+
+<ParamField status="201" type="CSDResponse">
+  <ParamField name="csdId" type="string">
+    CSD ID
+  </ParamField>
+  <ParamField name="awbNumber" type="string">
+    AWB number
+  </ParamField>
+  <ParamField name="status" type="string">
+    Submission status
+  </ParamField>
+</ParamField>
