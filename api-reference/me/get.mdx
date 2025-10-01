@@ -5,7 +5,6 @@ openapi: 'GET /api/me'
 
 Retrieve current user/organization profile information.
 
-## Response (200)
 
 <ParamField status="200" type="UserProfile">
   <ParamField name="id" type="string">
@@ -25,10 +24,12 @@ Retrieve current user/organization profile information.
   </ParamField>
 </ParamField>
 
-## Response (401)
 
-<ParamField status="401" type="ErrorResponse">
+<ParamField status="401" type="object">
   <ParamField name="error" type="string">
-    Unauthorized
+    Error code (e.g., 'invalid_client', 'invalid_grant')
+  </ParamField>
+  <ParamField name="error_description" type="string">
+    Human-readable error description
   </ParamField>
 </ParamField>
