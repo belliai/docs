@@ -5,51 +5,6 @@ openapi: 'POST /api/auth/token'
 
 Issue OAuth2/JWT access token using client credentials or password grant flow.
 
-## Request Body
-
-<ParamField body="TokenRequest" type="object" required>
-  Token request details
-
-  <Expandable title="Token Request Properties">
-    <ParamField body="grant_type" type="string" required>
-      Grant type: 'client_credentials' or 'password'
-    </ParamField>
-    <ParamField body="client_id" type="string" required>
-      OAuth2 client identifier
-    </ParamField>
-    <ParamField body="client_secret" type="string" required>
-      OAuth2 client secret
-    </ParamField>
-    <ParamField body="username" type="string">
-      Username (required for password grant)
-    </ParamField>
-    <ParamField body="password" type="string">
-      Password (required for password grant)
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-## Response (200)
-
-<ParamField status="200" type="TokenResponse">
-  <ParamField name="access_token" type="string">
-    JWT access token
-  </ParamField>
-  <ParamField name="token_type" type="string">
-    Token type (Bearer)
-  </ParamField>
-  <ParamField name="expires_in" type="integer">
-    Token expiration time in seconds
-  </ParamField>
-</ParamField>
-
-## Response (400)
-
-<ParamField status="400" type="ErrorResponse">
-  <ParamField name="error" type="string">
-    Error message
-  </ParamField>
-</ParamField>
 
 <ParamField status="200" type="object">
   <ParamField name="access_token" type="string">
@@ -66,13 +21,12 @@ Issue OAuth2/JWT access token using client credentials or password grant flow.
   </ParamField>
 </ParamField>
 
-## Response (400)
 
 <ParamField status="400" type="object">
   <ParamField name="error" type="string">
-    Error code
+    Error code (e.g., 'invalid_client', 'invalid_grant')
   </ParamField>
   <ParamField name="error_description" type="string">
-    Error description
+    Human-readable error description
   </ParamField>
 </ParamField>

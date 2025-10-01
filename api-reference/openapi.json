@@ -69,7 +69,7 @@
             "description": "Invalid request",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+                "schema": { "$ref": "#/components/schemas/OAuthErrorResponse" }
               }
             }
           }
@@ -1395,6 +1395,19 @@
           "message": {
             "type": "string",
             "example": "Error description"
+          }
+        }
+      },
+      "OAuthErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "invalid_client"
+          },
+          "error_description": {
+            "type": "string",
+            "example": "Invalid client credentials"
           }
         }
       },
