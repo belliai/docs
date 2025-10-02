@@ -5,25 +5,7 @@ openapi: 'POST /api/placi'
 
 Submit Pre-Loading Cargo Information (PLACI).
 
-## Request Body
 
-<ParamField body="placiData" type="object" required>
-  PLACI submission details
-
-  <Expandable title="PLACI Data Properties">
-    <ParamField body="awbNumber" type="string" required>
-      Air Waybill number
-    </ParamField>
-    <ParamField body="flightNumber" type="string" required>
-      Flight number
-    </ParamField>
-    <ParamField body="loadingInstructions" type="string">
-      Special loading instructions
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="object">
   <ParamField name="placiId" type="string">
@@ -34,7 +16,6 @@ Submit Pre-Loading Cargo Information (PLACI).
   </ParamField>
 </ParamField>
 
-## Response (400)
 
 <ParamField status="400" type="object">
   <ParamField name="error" type="string">
@@ -42,7 +23,6 @@ Submit Pre-Loading Cargo Information (PLACI).
   </ParamField>
 </ParamField>
 
-## Response (401)
 
 <ParamField status="401" type="object">
   <ParamField name="error" type="string">

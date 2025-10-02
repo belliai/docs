@@ -5,47 +5,63 @@ openapi: 'POST /api/dangerous-goods'
 
 Submit electronic Dangerous Goods Declaration (e-DGD).
 
-## Request Body
 
-<ParamField body="dangerousGoodsData" type="object" required>
-  Dangerous goods declaration details
 
-  <Expandable title="Dangerous Goods Data Properties">
-    <ParamField body="unNumber" type="string" required>
-      UN number for the dangerous goods
-    </ParamField>
-    <ParamField body="properShippingName" type="string" required>
-      Proper shipping name
-    </ParamField>
-    <ParamField body="class" type="string" required>
-      Hazard class
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-## Response (200)
-
-<ParamField status="200" type="object">
+<ParamField status="201" type="DangerousGoodsResponse">
   <ParamField name="dgdId" type="string">
-    Unique DGD identifier
+    Unique Dangerous Goods Declaration identifier
+  </ParamField>
+  <ParamField name="awbNumber" type="string">
+    Air Waybill number
   </ParamField>
   <ParamField name="status" type="string">
-    Submission status
+    Current status of the declaration (submitted, under_review, approved, rejected)
+  </ParamField>
+  <ParamField name="submittedAt" type="string" format="date-time">
+    Timestamp when the declaration was submitted
+  </ParamField>
+  <ParamField name="validUntil" type="string" format="date-time">
+    Declaration validity end time
+  </ParamField>
+  <ParamField name="reviewNotes" type="string">
+    Notes from the review process
   </ParamField>
 </ParamField>
 
-## Response (400)
 
-<ParamField status="400" type="object">
+<ParamField status="400" type="DangerousGoodsErrorResponse">
   <ParamField name="error" type="string">
-    Error message
+    Error code indicating validation failure
+  </ParamField>
+  <ParamField name="errorDescription" type="string">
+    Human-readable error description
+  </ParamField>
+  <ParamField name="errorUri" type="string">
+    Link to error documentation
+  </ParamField>
+  <ParamField name="validationErrors" type="array">
+    Array of specific validation errors
+    <ParamField name="field" type="string">
+      Field name that failed validation
+    </ParamField>
+    <ParamField name="message" type="string">
+      Validation error message
+    </ParamField>
+    <ParamField name="code" type="string">
+      Error code for the validation failure
+    </ParamField>
   </ParamField>
 </ParamField>
 
-## Response (401)
 
-<ParamField status="401" type="object">
+<ParamField status="401" type="OAuthErrorResponse">
   <ParamField name="error" type="string">
-    Unauthorized error message
+    Error code (e.g., 'invalid_client', 'invalid_grant')
+  </ParamField>
+  <ParamField name="errorDescription" type="string">
+    Human-readable error description
+  </ParamField>
+  <ParamField name="errorUri" type="string">
+    Link to error documentation
   </ParamField>
 </ParamField>

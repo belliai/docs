@@ -5,31 +5,6 @@ openapi: 'POST /api/terminals/slots'
 
 Create and manage terminal slot bookings with VCT/TSP issuance.
 
-## Request Body
-
-<ParamField body="SlotBookingRequest" type="object" required>
-  Slot booking details
-
-  <Expandable title="Booking Properties">
-    <ParamField body="terminal" type="string" required>
-      Terminal name
-    </ParamField>
-    <ParamField body="requestedDate" type="string" format="date" required>
-      Requested date
-    </ParamField>
-    <ParamField body="requestedTime" type="string" required>
-      Requested time
-    </ParamField>
-    <ParamField body="duration" type="integer" required>
-      Duration in hours
-    </ParamField>
-    <ParamField body="awbNumbers" type="array" required>
-      List of AWB numbers
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-## Response (201)
 
 <ParamField status="201" type="SlotBookingResponse">
   <ParamField name="slotId" type="string">

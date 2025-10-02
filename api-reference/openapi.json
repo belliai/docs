@@ -586,18 +586,18 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AWBStockRequestResponse"
-                }
-              }
-            }
-          },
+          }
+        }
+      }
+    },
           "400": {
             "description": "Invalid AWB stock request",
-            "content": {
-              "application/json": {
+          "content": {
+            "application/json": {
                 "schema": { "$ref": "#/components/schemas/AWBStockRequestErrorResponse" }
-              }
             }
-          },
+          }
+        },
           "401": {
             "description": "Unauthorized - Invalid or missing authentication",
             "content": {
@@ -996,6 +996,55 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PLACIResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dangerous-goods": {
+      "post": {
+        "tags": ["compliance-v1"],
+        "summary": "Submit e-DGD",
+        "description": "Submit electronic Dangerous Goods Declaration (e-DGD)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DangerousGoodsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dangerous goods declaration submitted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DangerousGoodsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid dangerous goods declaration data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DangerousGoodsErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthErrorResponse"
                 }
               }
             }
@@ -1878,7 +1927,7 @@
               "type": "object",
               "properties": {
                 "flightNumber": {
-                  "type": "string",
+            "type": "string",
                   "example": "QR123"
                 },
                 "departureDate": {
@@ -1887,17 +1936,17 @@
                   "example": "2024-01-15"
                 },
                 "pricePerKg": {
-                  "type": "number",
+            "type": "number",
                   "example": 2.50
                 },
                 "totalAmount": {
                   "type": "number",
                   "example": 2450.00
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "USD"
-                },
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD"
+          },
                 "validityHours": {
                   "type": "integer",
                   "example": 24
@@ -2330,52 +2379,52 @@
           }
         }
       },
-        "BookingRequest": {
-          "type": "object",
-          "properties": {
-            "quoteId": {
-              "type": "string",
+      "BookingRequest": {
+        "type": "object",
+        "properties": {
+          "quoteId": {
+            "type": "string",
               "example": "quote-123",
               "description": "Quote identifier from the pricing response"
-            },
-            "flightId": {
-              "type": "string",
+          },
+          "flightId": {
+            "type": "string",
               "example": "QR001-20240101",
               "description": "Flight identifier for the booking"
-            },
-            "pieces": {
-              "type": "integer",
+          },
+          "pieces": {
+            "type": "integer",
               "example": 10,
               "description": "Number of pieces in the shipment"
-            },
-            "weight": {
-              "type": "number",
+          },
+          "weight": {
+            "type": "number",
               "example": 500,
               "description": "Total weight in kilograms"
-            },
-            "volume": {
-              "type": "number",
+          },
+          "volume": {
+            "type": "number",
               "example": 2.5,
               "description": "Total volume in cubic meters"
-            },
-            "commodity": {
-              "type": "string",
+          },
+          "commodity": {
+            "type": "string",
               "example": "GEN",
               "description": "Commodity code"
+          },
+          "shc": {
+            "type": "array",
+            "items": {
+              "type": "string"
             },
-            "shc": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
               "example": ["PER"],
               "description": "Special handling codes"
-            },
-            "shipper": {
-              "$ref": "#/components/schemas/Party"
-            },
-            "consignee": {
-              "$ref": "#/components/schemas/Party"
+          },
+          "shipper": {
+            "$ref": "#/components/schemas/Party"
+          },
+          "consignee": {
+            "$ref": "#/components/schemas/Party"
             },
             "awb": {
               "type": "object",
@@ -2494,7 +2543,7 @@
             }
           },
           "required": ["quoteId", "flightId", "pieces", "weight", "commodity", "shipper", "consignee", "awb", "routing", "grossWeightKg", "chargeableWeightKg", "dimensionsCm"]
-        },
+      },
       "Party": {
         "type": "object",
         "properties": {
@@ -2812,6 +2861,178 @@
           "status": {
             "type": "string",
             "example": "submitted"
+          }
+        }
+      },
+      "DangerousGoodsRequest": {
+        "type": "object",
+        "properties": {
+          "awbNumber": {
+            "type": "string",
+            "example": "15712345678",
+            "description": "Air Waybill number"
+          },
+          "unNumber": {
+            "type": "string",
+            "example": "UN1234",
+            "description": "UN number for the dangerous goods"
+          },
+          "properShippingName": {
+            "type": "string",
+            "example": "Example Dangerous Goods",
+            "description": "Proper shipping name as per IATA DGR"
+          },
+          "class": {
+            "type": "string",
+            "example": "3",
+            "description": "Hazard class (1-9)"
+          },
+          "packingGroup": {
+            "type": "string",
+            "example": "II",
+            "description": "Packing group (I, II, or III)"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 100,
+            "description": "Quantity of dangerous goods"
+          },
+          "netWeight": {
+            "type": "number",
+            "example": 50.5,
+            "description": "Net weight in kilograms"
+          },
+          "grossWeight": {
+            "type": "number",
+            "example": 55.0,
+            "description": "Gross weight in kilograms"
+          },
+          "packingInstructions": {
+            "type": "string",
+            "example": "P001",
+            "description": "Packing instructions code"
+          },
+          "limitedQuantity": {
+            "type": "boolean",
+            "example": false,
+            "description": "Whether goods are in limited quantity"
+          },
+          "exceptedQuantity": {
+            "type": "boolean",
+            "example": false,
+            "description": "Whether goods are in excepted quantity"
+          },
+          "shipperDeclaration": {
+            "type": "string",
+            "example": "I hereby declare that the contents of this consignment are fully and accurately described above by the proper shipping name and are classified, packaged, marked and labeled/placarded and are in all respects in proper condition for transport according to applicable international and national governmental regulations.",
+            "description": "Shipper's declaration statement"
+          },
+          "emergencyContact": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Smith"
+              },
+              "phone": {
+                "type": "string",
+                "example": "+1-555-123-4567"
+              },
+              "email": {
+                "type": "string",
+                "example": "emergency@example.com"
+              }
+            },
+            "required": ["name", "phone"]
+          }
+        },
+        "required": ["awbNumber", "unNumber", "properShippingName", "class", "quantity", "netWeight"]
+      },
+      "DangerousGoodsResponse": {
+        "type": "object",
+        "properties": {
+          "dgdId": {
+            "type": "string",
+            "example": "dgd-123456789",
+            "description": "Unique Dangerous Goods Declaration identifier"
+          },
+          "awbNumber": {
+            "type": "string",
+            "example": "15712345678",
+            "description": "Air Waybill number"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["submitted", "under_review", "approved", "rejected"],
+            "example": "submitted",
+            "description": "Current status of the declaration"
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-01-15T10:30:00Z",
+            "description": "Timestamp when the declaration was submitted"
+          },
+          "validUntil": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-01-22T10:30:00Z",
+            "description": "Declaration validity end time"
+          },
+          "reviewNotes": {
+            "type": "string",
+            "example": "Declaration approved for transport",
+            "description": "Notes from the review process"
+          }
+        },
+        "required": ["dgdId", "awbNumber", "status", "submittedAt"]
+      },
+      "DangerousGoodsErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "validation_error"
+          },
+          "errorDescription": {
+            "type": "string",
+            "example": "Invalid dangerous goods declaration parameters"
+          },
+          "errorUri": {
+            "type": "string",
+            "example": "https://docs.example.com/dangerous-goods/errors"
+          },
+          "validationErrors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "example": "unNumber"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "UN number must be in format UN followed by 4 digits"
+                },
+                "code": {
+                  "type": "string",
+                  "example": "INVALID_UN_NUMBER"
+                }
+              }
+            },
+            "example": [
+              {
+                "field": "unNumber",
+                "message": "UN number must be in format UN followed by 4 digits",
+                "code": "INVALID_UN_NUMBER"
+              },
+              {
+                "field": "class",
+                "message": "Hazard class must be between 1 and 9",
+                "code": "INVALID_HAZARD_CLASS"
+              }
+            ]
           }
         }
       },

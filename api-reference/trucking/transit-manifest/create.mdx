@@ -5,31 +5,6 @@ openapi: 'POST /api/trucking/transit-manifest'
 
 Upload bonded transit manifest to airline/GHA.
 
-## Request Body
-
-<ParamField body="TransitManifestRequest" type="object" required>
-  Transit manifest details
-
-  <Expandable title="Manifest Properties">
-    <ParamField body="manifestNumber" type="string" required>
-      Manifest number
-    </ParamField>
-    <ParamField body="awbNumbers" type="array" required>
-      List of AWB numbers
-    </ParamField>
-    <ParamField body="origin" type="string" required>
-      Origin airport
-    </ParamField>
-    <ParamField body="destination" type="string" required>
-      Destination airport
-    </ParamField>
-    <ParamField body="transportMode" type="string" required>
-      Transport mode
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-## Response (201)
 
 <ParamField status="201" type="TransitManifestResponse">
   <ParamField name="manifestId" type="string">

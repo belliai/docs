@@ -5,37 +5,7 @@ openapi: 'GET /api/audit-logs'
 
 Get authorization, data changes, and message exchange ledger.
 
-## Query Parameters
 
-<ParamField query="action" type="string">
-  Filter by action
-</ParamField>
-
-<ParamField query="resource" type="string">
-  Filter by resource
-</ParamField>
-
-<ParamField query="userId" type="string">
-  Filter by user ID
-</ParamField>
-
-<ParamField query="fromDate" type="string" format="date-time">
-  Filter from date
-</ParamField>
-
-<ParamField query="toDate" type="string" format="date-time">
-  Filter to date
-</ParamField>
-
-<ParamField query="page" type="integer" default="1">
-  Page number
-</ParamField>
-
-<ParamField query="limit" type="integer" default="50">
-  Items per page
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="AuditLogsResponse">
   <ParamField name="logs" type="array">

@@ -5,25 +5,7 @@ openapi: 'POST /api/webhooks'
 
 Register endpoints for quotes, booking confirmations, status, and document events.
 
-## Request Body
 
-<ParamField body="WebhookRegistrationRequest" type="object" required>
-  Webhook registration details
-
-  <Expandable title="Registration Properties">
-    <ParamField body="url" type="string" required>
-      Webhook URL
-    </ParamField>
-    <ParamField body="events" type="array" required>
-      List of events to subscribe to
-    </ParamField>
-    <ParamField body="secret" type="string">
-      Webhook secret for verification
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-## Response (201)
 
 <ParamField status="201" type="WebhookRegistrationResponse">
   <ParamField name="webhookId" type="string">

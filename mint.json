@@ -134,7 +134,6 @@
     {
       "group": "Operational Events & Manifests",
       "pages": [
-        "api-reference/shipments/events/create",
         "api-reference/flights/manifests/create",
         "api-reference/offloads/create"
       ]

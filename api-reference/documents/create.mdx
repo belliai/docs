@@ -5,29 +5,7 @@ openapi: 'POST /api/documents'
 
 Upload ancillary documents (MSDS, COO, COI, etc.) for digital pouch.
 
-## Request Body
 
-<ParamField body="awbNumber" type="string" required>
-  Associated AWB number
-</ParamField>
-
-<ParamField body="documentType" type="string" required>
-  Document type (MSDS, COO, COI, etc.)
-</ParamField>
-
-<ParamField body="file" type="string" format="binary" required>
-  Document file (binary data)
-</ParamField>
-
-<ParamField body="filename" type="string" required>
-  Original filename
-</ParamField>
-
-<ParamField body="description" type="string">
-  Document description
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="object">
   <ParamField name="documentId" type="string">

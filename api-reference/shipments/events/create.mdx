@@ -5,35 +5,6 @@ openapi: 'POST /api/shipments/{awb}/events'
 
 Post status updates/events (RCS, MAN, DEP, ARR… XFSU equivalents).
 
-## Path Parameters
-
-<ParamField path="awb" type="string" required>
-  Air Waybill number
-</ParamField>
-
-## Request Body
-
-<ParamField body="eventCode" type="string" required>
-  Event code (RCS, MAN, DEP, ARR, etc.)
-</ParamField>
-
-<ParamField body="description" type="string" required>
-  Event description
-</ParamField>
-
-<ParamField body="location" type="string" required>
-  Event location
-</ParamField>
-
-<ParamField body="timestamp" type="string" format="date-time" required>
-  Event timestamp
-</ParamField>
-
-<ParamField body="additionalData" type="object">
-  Additional event-specific data
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="object">
   <ParamField name="awbNumber" type="string">

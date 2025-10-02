@@ -5,25 +5,6 @@ openapi: 'POST /api/hawb'
 
 Create/submit House Air Waybill (HAWB) with FHL/XFZB data.
 
-## Request Body
-
-<ParamField body="hawbData" type="object" required>
-  HAWB creation details
-
-  <Expandable title="HAWB Data Properties">
-    <ParamField body="shipper" type="string" required>
-      Shipper information
-    </ParamField>
-    <ParamField body="consignee" type="string" required>
-      Consignee information
-    </ParamField>
-    <ParamField body="cargoDetails" type="object" required>
-      Cargo description and weight
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="object">
   <ParamField name="hawbNumber" type="string">
@@ -34,7 +15,6 @@ Create/submit House Air Waybill (HAWB) with FHL/XFZB data.
   </ParamField>
 </ParamField>
 
-## Response (400)
 
 <ParamField status="400" type="object">
   <ParamField name="error" type="string">
@@ -42,7 +22,6 @@ Create/submit House Air Waybill (HAWB) with FHL/XFZB data.
   </ParamField>
 </ParamField>
 
-## Response (401)
 
 <ParamField status="401" type="object">
   <ParamField name="error" type="string">
