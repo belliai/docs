@@ -5,17 +5,6 @@ openapi: 'GET /api/awb-stock/allocations'
 
 Retrieve airline AWB stock allocations (prefix, ranges, validity).
 
-## Query Parameters
-
-<ParamField query="airline" type="string">
-  Filter by airline IATA code
-</ParamField>
-
-<ParamField query="prefix" type="string">
-  Filter by AWB prefix
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="array">
   <ParamField name="airline" type="string">

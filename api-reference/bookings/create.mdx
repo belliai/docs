@@ -5,25 +5,7 @@ openapi: 'POST /api/bookings'
 
 Create a new booking with FFR fields and reference to quote.
 
-## Request Body
 
-<ParamField body="BookingRequestACS" type="object" required>
-  Booking request details
-
-  <Expandable title="Booking Request Properties">
-    <ParamField body="quoteId" type="string" required>
-      Reference to the quotation
-    </ParamField>
-    <ParamField body="awbNumber" type="string" required>
-      Air Waybill number
-    </ParamField>
-    <ParamField body="flightDetails" type="object" required>
-      Flight information
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="BookingResponseACS">
   <ParamField name="bookingId" type="string">
@@ -37,7 +19,7 @@ Create a new booking with FFR fields and reference to quote.
   </ParamField>
 </ParamField>
 
-## Response (400)
+
 
 <ParamField status="400" type="ErrorResponse">
   <ParamField name="error" type="string">
@@ -45,7 +27,7 @@ Create a new booking with FFR fields and reference to quote.
   </ParamField>
 </ParamField>
 
-## Response (401)
+
 
 <ParamField status="401" type="ErrorResponse">
   <ParamField name="error" type="string">

@@ -3,43 +3,84 @@ title: 'Reply to AWB Stock Request'
 openapi: 'PUT /api/awb-stock/reply/{requestId}'
 ---
 
-Reply to an AWB stock request.
+Airline replies to an AWB stock request with approval/rejection and allocation details.
 
-## Path Parameters
 
-<ParamField path="requestId" type="string" required>
-  Unique request identifier
-</ParamField>
 
-## Request Body
-
-<ParamField body="replyDetails" type="object">
-  Reply details for the AWB stock request
-</ParamField>
-
-## Response (200)
-
-<ParamField status="200" type="object">
+<ParamField status="200" type="AWBStockReplyResponse">
   <ParamField name="requestId" type="string">
     Unique request identifier
   </ParamField>
   <ParamField name="status" type="string">
-    Updated request status
+    Updated request status after reply
+  </ParamField>
+  <ParamField name="allocatedStock" type="integer">
+    Number of AWB stock units allocated
+  </ParamField>
+  <ParamField name="startNumber" type="string">
+    Starting AWB number in allocated range
+  </ParamField>
+  <ParamField name="endNumber" type="string">
+    Ending AWB number in allocated range
+  </ParamField>
+  <ParamField name="validFrom" type="string" format="date">
+    Validity start date for allocated stock
+  </ParamField>
+  <ParamField name="validTo" type="string" format="date">
+    Validity end date for allocated stock
+  </ParamField>
+  <ParamField name="repliedAt" type="string" format="date-time">
+    Timestamp when the reply was submitted
+  </ParamField>
+  <ParamField name="notes" type="string">
+    Additional notes from the airline
   </ParamField>
 </ParamField>
 
-## Response (400)
 
-<ParamField status="400" type="object">
+
+<ParamField status="400" type="AWBStockReplyErrorResponse">
   <ParamField name="error" type="string">
-    Error message
+    Error code indicating validation failure
+  </ParamField>
+  <ParamField name="errorDescription" type="string">
+    Human-readable error description
+  </ParamField>
+  <ParamField name="errorUri" type="string">
+    Link to error documentation
+  </ParamField>
+  <ParamField name="validationErrors" type="array">
+    Array of specific validation errors
+    <ParamField name="field" type="string">
+      Field name that failed validation
+    </ParamField>
+    <ParamField name="message" type="string">
+      Validation error message
+    </ParamField>
+    <ParamField name="code" type="string">
+      Error code for the validation failure
+    </ParamField>
   </ParamField>
 </ParamField>
 
-## Response (401)
 
-<ParamField status="401" type="object">
+
+<ParamField status="401" type="OAuthErrorResponse">
   <ParamField name="error" type="string">
-    Unauthorized error message
+    Error code (e.g., 'invalid_client', 'invalid_grant')
+  </ParamField>
+  <ParamField name="errorDescription" type="string">
+    Human-readable error description
+  </ParamField>
+  <ParamField name="errorUri" type="string">
+    Link to error documentation
   </ParamField>
 </ParamField>
+
+
+
+
+
+
+
+

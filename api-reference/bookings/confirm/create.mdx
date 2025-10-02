@@ -5,31 +5,7 @@ openapi: 'POST /api/bookings/{id}/confirm'
 
 Airline confirms, rejects, or provides alternative for booking (FFA semantics).
 
-## Path Parameters
 
-<ParamField path="id" type="string" required>
-  Booking identifier
-</ParamField>
-
-## Request Body
-
-<ParamField body="BookingConfirmationRequest" type="object" required>
-  Booking confirmation request
-
-  <Expandable title="Confirmation Request Properties">
-    <ParamField body="action" type="string" required>
-      Action: 'confirm', 'reject', or 'alternate'
-    </ParamField>
-    <ParamField body="reason" type="string">
-      Reason for rejection (if applicable)
-    </ParamField>
-    <ParamField body="alternateFlightId" type="string">
-      Alternative flight ID (if alternate action)
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="BookingConfirmationResponse">
   <ParamField name="bookingId" type="string">
@@ -43,7 +19,6 @@ Airline confirms, rejects, or provides alternative for booking (FFA semantics).
   </ParamField>
 </ParamField>
 
-## Response (400)
 
 <ParamField status="400" type="ErrorResponse">
   <ParamField name="error" type="string">

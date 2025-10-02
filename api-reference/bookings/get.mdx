@@ -5,13 +5,7 @@ openapi: 'GET /api/bookings/{id}'
 
 Retrieve booking details and status.
 
-## Path Parameters
 
-<ParamField path="id" type="string" required>
-  Booking identifier
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="BookingResponseACS">
   <ParamField name="bookingId" type="string">
@@ -37,7 +31,7 @@ Retrieve booking details and status.
   </ParamField>
 </ParamField>
 
-## Response (404)
+
 
 <ParamField status="404" type="ErrorResponse">
   <ParamField name="error" type="string">

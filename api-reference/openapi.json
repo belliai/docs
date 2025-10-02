@@ -581,12 +581,28 @@
         },
         "responses": {
           "201": {
-            "description": "Stock request submitted",
+            "description": "Stock request submitted successfully",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AWBStockRequestResponse"
                 }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid AWB stock request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AWBStockRequestErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing authentication",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OAuthErrorResponse" }
               }
             }
           }
@@ -625,6 +641,64 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AWBStockAllocationsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/awb-stock/reply/{requestId}": {
+      "put": {
+        "tags": ["awb-stock-v1"],
+        "summary": "Reply to AWB stock request",
+        "description": "Airline replies to an AWB stock request with approval/rejection and allocation details",
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique request identifier"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AWBStockReplyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reply submitted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AWBStockReplyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid reply data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AWBStockReplyErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthErrorResponse"
                 }
               }
             }
@@ -1936,11 +2010,276 @@
         "properties": {
           "requestId": {
             "type": "string",
-            "example": "req-123"
+            "example": "req-123456789",
+            "description": "Unique identifier for the stock request"
           },
           "status": {
             "type": "string",
-            "example": "pending"
+            "enum": ["pending", "approved", "rejected", "processing"],
+            "example": "pending",
+            "description": "Current status of the stock request"
+          },
+          "organizationId": {
+            "type": "string",
+            "example": "org-123",
+            "description": "Organization identifier that made the request"
+          },
+          "airlinePrefix": {
+            "type": "string",
+            "example": "157",
+            "description": "Airline AWB prefix requested"
+          },
+          "requestedStock": {
+            "type": "integer",
+            "example": 100,
+            "description": "Number of AWB stock units requested"
+          },
+          "allocatedStock": {
+            "type": "integer",
+            "example": 0,
+            "description": "Number of AWB stock units allocated (if any)"
+          },
+          "validityPeriod": {
+            "type": "integer",
+            "example": 12,
+            "description": "Validity period in months as requested"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-01-15",
+            "description": "Validity start date for allocated stock"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-01-15",
+            "description": "Validity end date for allocated stock"
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-01-15T10:30:00Z",
+            "description": "Timestamp when the request was submitted"
+          },
+          "processedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": null,
+            "description": "Timestamp when the request was processed (if applicable)"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Request for Q1 2024 operations",
+            "description": "Additional notes or comments"
+          },
+          "approvalNotes": {
+            "type": "string",
+            "example": null,
+            "description": "Notes from the airline regarding approval/rejection"
+          }
+        },
+        "required": ["requestId", "status", "organizationId", "airlinePrefix", "requestedStock", "validityPeriod", "submittedAt"]
+      },
+      "AWBStockRequestErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "validation_error"
+          },
+          "errorDescription": {
+            "type": "string",
+            "example": "Invalid AWB stock request parameters"
+          },
+          "errorUri": {
+            "type": "string",
+            "example": "https://docs.example.com/awb-stock/errors"
+          },
+          "validationErrors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "example": "requestedStock"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Requested stock must be between 1 and 10000"
+                },
+                "code": {
+                  "type": "string",
+                  "example": "INVALID_RANGE"
+                }
+              }
+            },
+            "example": [
+              {
+                "field": "requestedStock",
+                "message": "Requested stock must be between 1 and 10000",
+                "code": "INVALID_RANGE"
+              },
+              {
+                "field": "airlinePrefix",
+                "message": "Invalid airline prefix format",
+                "code": "INVALID_FORMAT"
+              }
+            ]
+          }
+        }
+      },
+      "AWBStockReplyRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["approved", "rejected", "partially_approved"],
+            "example": "approved",
+            "description": "Reply status for the AWB stock request"
+          },
+          "allocatedStock": {
+            "type": "integer",
+            "example": 100,
+            "description": "Number of AWB stock units allocated (0 if rejected)"
+          },
+          "startNumber": {
+            "type": "string",
+            "example": "157000001",
+            "description": "Starting AWB number in allocated range (if approved)"
+          },
+          "endNumber": {
+            "type": "string",
+            "example": "157000100",
+            "description": "Ending AWB number in allocated range (if approved)"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-01-15",
+            "description": "Validity start date for allocated stock"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-01-15",
+            "description": "Validity end date for allocated stock"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Stock allocated as requested. Please ensure proper usage compliance.",
+            "description": "Additional notes from the airline"
+          },
+          "rejectionReason": {
+            "type": "string",
+            "example": "Insufficient stock availability",
+            "description": "Reason for rejection (if status is rejected)"
+          }
+        },
+        "required": ["status", "allocatedStock", "validFrom", "validTo"]
+      },
+      "AWBStockReplyResponse": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "example": "req-123456789",
+            "description": "Unique request identifier"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["approved", "rejected", "partially_approved"],
+            "example": "approved",
+            "description": "Updated request status after reply"
+          },
+          "allocatedStock": {
+            "type": "integer",
+            "example": 100,
+            "description": "Number of AWB stock units allocated"
+          },
+          "startNumber": {
+            "type": "string",
+            "example": "157000001",
+            "description": "Starting AWB number in allocated range"
+          },
+          "endNumber": {
+            "type": "string",
+            "example": "157000100",
+            "description": "Ending AWB number in allocated range"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-01-15",
+            "description": "Validity start date for allocated stock"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-01-15",
+            "description": "Validity end date for allocated stock"
+          },
+          "repliedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-01-15T14:30:00Z",
+            "description": "Timestamp when the reply was submitted"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Stock allocated as requested. Please ensure proper usage compliance.",
+            "description": "Additional notes from the airline"
+          }
+        },
+        "required": ["requestId", "status", "allocatedStock", "repliedAt"]
+      },
+      "AWBStockReplyErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "validation_error"
+          },
+          "errorDescription": {
+            "type": "string",
+            "example": "Invalid AWB stock reply parameters"
+          },
+          "errorUri": {
+            "type": "string",
+            "example": "https://docs.example.com/awb-stock/reply-errors"
+          },
+          "validationErrors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "example": "allocatedStock"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Allocated stock must be between 0 and requested amount"
+                },
+                "code": {
+                  "type": "string",
+                  "example": "INVALID_ALLOCATION"
+                }
+              }
+            },
+            "example": [
+              {
+                "field": "allocatedStock",
+                "message": "Allocated stock must be between 0 and requested amount",
+                "code": "INVALID_ALLOCATION"
+              },
+              {
+                "field": "status",
+                "message": "Status must be one of: approved, rejected, partially_approved",
+                "code": "INVALID_STATUS"
+              }
+            ]
           }
         }
       },
@@ -1991,49 +2330,171 @@
           }
         }
       },
-      "BookingRequest": {
-        "type": "object",
-        "properties": {
-          "quoteId": {
-            "type": "string",
-            "example": "quote-123"
-          },
-          "flightId": {
-            "type": "string",
-            "example": "QR001-20240101"
-          },
-          "pieces": {
-            "type": "integer",
-            "example": 10
-          },
-          "weight": {
-            "type": "number",
-            "example": 500
-          },
-          "volume": {
-            "type": "number",
-            "example": 2.5
-          },
-          "commodity": {
-            "type": "string",
-            "example": "GEN"
-          },
-          "shc": {
-            "type": "array",
-            "items": {
-              "type": "string"
+        "BookingRequest": {
+          "type": "object",
+          "properties": {
+            "quoteId": {
+              "type": "string",
+              "example": "quote-123",
+              "description": "Quote identifier from the pricing response"
             },
-            "example": ["PER"]
+            "flightId": {
+              "type": "string",
+              "example": "QR001-20240101",
+              "description": "Flight identifier for the booking"
+            },
+            "pieces": {
+              "type": "integer",
+              "example": 10,
+              "description": "Number of pieces in the shipment"
+            },
+            "weight": {
+              "type": "number",
+              "example": 500,
+              "description": "Total weight in kilograms"
+            },
+            "volume": {
+              "type": "number",
+              "example": 2.5,
+              "description": "Total volume in cubic meters"
+            },
+            "commodity": {
+              "type": "string",
+              "example": "GEN",
+              "description": "Commodity code"
+            },
+            "shc": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": ["PER"],
+              "description": "Special handling codes"
+            },
+            "shipper": {
+              "$ref": "#/components/schemas/Party"
+            },
+            "consignee": {
+              "$ref": "#/components/schemas/Party"
+            },
+            "awb": {
+              "type": "object",
+              "properties": {
+                "prefix": {
+                  "type": "string",
+                  "example": "157",
+                  "description": "AWB prefix"
+                },
+                "number": {
+                  "type": "string",
+                  "example": "157000001",
+                  "description": "AWB number"
+                }
+              },
+              "required": ["prefix", "number"]
+            },
+            "routing": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "from": {
+                    "type": "string",
+                    "example": "LAX"
+                  },
+                  "to": {
+                    "type": "string",
+                    "example": "DOH"
+                  },
+                  "carrier": {
+                    "type": "string",
+                    "example": "QR"
+                  },
+                  "flightNumber": {
+                    "type": "string",
+                    "example": "QR001"
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2024-01-01"
+                  }
+                },
+                "required": ["from", "to", "carrier", "flightNumber", "date"]
+              },
+              "example": [
+                {
+                  "from": "LAX",
+                  "to": "DOH",
+                  "carrier": "QR",
+                  "flightNumber": "QR001",
+                  "date": "2024-01-01"
+                },
+                {
+                  "from": "DOH",
+                  "to": "DXB",
+                  "carrier": "QR",
+                  "flightNumber": "QR123",
+                  "date": "2024-01-02"
+                }
+              ]
+            },
+            "grossWeightKg": {
+              "type": "number",
+              "example": 500.5,
+              "description": "Gross weight in kilograms"
+            },
+            "chargeableWeightKg": {
+              "type": "number",
+              "example": 520.0,
+              "description": "Chargeable weight in kilograms"
+            },
+            "dimensionsCm": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "l": {
+                    "type": "number",
+                    "example": 120.5,
+                    "description": "Length in centimeters"
+                  },
+                  "w": {
+                    "type": "number",
+                    "example": 80.0,
+                    "description": "Width in centimeters"
+                  },
+                  "h": {
+                    "type": "number",
+                    "example": 60.0,
+                    "description": "Height in centimeters"
+                  },
+                  "pieces": {
+                    "type": "integer",
+                    "example": 5,
+                    "description": "Number of pieces with these dimensions"
+                  }
+                },
+                "required": ["l", "w", "h", "pieces"]
+              },
+              "example": [
+                {
+                  "l": 120.5,
+                  "w": 80.0,
+                  "h": 60.0,
+                  "pieces": 5
+                },
+                {
+                  "l": 100.0,
+                  "w": 70.0,
+                  "h": 50.0,
+                  "pieces": 5
+                }
+              ]
+            }
           },
-          "shipper": {
-            "$ref": "#/components/schemas/Party"
-          },
-          "consignee": {
-            "$ref": "#/components/schemas/Party"
-          }
+          "required": ["quoteId", "flightId", "pieces", "weight", "commodity", "shipper", "consignee", "awb", "routing", "grossWeightKg", "chargeableWeightKg", "dimensionsCm"]
         },
-        "required": ["quoteId", "flightId", "pieces", "weight", "commodity", "shipper", "consignee"]
-      },
       "Party": {
         "type": "object",
         "properties": {
