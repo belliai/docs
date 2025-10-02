@@ -5,25 +5,6 @@ openapi: 'GET /api/commodities'
 
 Retrieve commodity catalog with UN numbers (for dangerous goods) and HS codes.
 
-## Query Parameters
-
-<ParamField query="code" type="string">
-  Filter by commodity code
-</ParamField>
-
-<ParamField query="name" type="string">
-  Filter by commodity name
-</ParamField>
-
-<ParamField query="dangerousGoods" type="boolean">
-  Filter by dangerous goods flag
-</ParamField>
-
-<ParamField query="hsCode" type="string">
-  Filter by HS code
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="CommoditiesResponse">
   <ParamField name="commodities" type="array">

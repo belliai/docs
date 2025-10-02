@@ -5,25 +5,6 @@ openapi: 'GET /api/airports'
 
 Retrieve airport directory with IATA/ICAO codes, cities, and timezones.
 
-## Query Parameters
-
-<ParamField query="iataCode" type="string">
-  Filter by IATA code
-</ParamField>
-
-<ParamField query="icaoCode" type="string">
-  Filter by ICAO code
-</ParamField>
-
-<ParamField query="city" type="string">
-  Filter by city
-</ParamField>
-
-<ParamField query="country" type="string">
-  Filter by country
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="AirportsResponse">
   <ParamField name="airports" type="array">
