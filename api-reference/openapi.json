@@ -103,57 +103,6 @@
         }
       }
     },
-    "/api/airline-route": {
-      "get": {
-        "tags": ["reference-data-v1"],
-        "summary": "Get airline route directory",
-        "description": "Get airline directory with IATA codes, prefixes, and names",
-        "parameters": [
-          {
-            "name": "iataCode",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Filter by IATA code"
-          },
-          {
-            "name": "icaoCode",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Filter by ICAO code"
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Filter by airline name"
-          },
-          {
-            "name": "country",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Filter by country"
-          },
-          {
-            "name": "alliance",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Filter by alliance"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Airline directory",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AirlinesResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/airlines": {
       "get": {
         "tags": ["reference-data-v1"],

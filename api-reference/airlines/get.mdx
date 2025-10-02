@@ -5,29 +5,6 @@ openapi: 'GET /api/airlines'
 
 Retrieve airline directory with IATA codes, prefixes, and names.
 
-## Query Parameters
-
-<ParamField query="iataCode" type="string">
-  Filter by IATA code
-</ParamField>
-
-<ParamField query="icaoCode" type="string">
-  Filter by ICAO code
-</ParamField>
-
-<ParamField query="name" type="string">
-  Filter by airline name
-</ParamField>
-
-<ParamField query="country" type="string">
-  Filter by country
-</ParamField>
-
-<ParamField query="alliance" type="string">
-  Filter by alliance
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="AirlinesResponse">
   <ParamField name="airlines" type="array">
