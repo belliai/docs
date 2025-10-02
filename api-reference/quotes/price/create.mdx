@@ -5,49 +5,31 @@ openapi: 'POST /api/quotes/{id}/price'
 
 Airline submits price options for a quote.
 
-## Path Parameters
 
-<ParamField path="id" type="string" required>
-  Quote identifier
-</ParamField>
 
-## Request Body
-
-<ParamField body="price_options" type="array" required>
-  Array of price options
-
-  <Expandable title="Price Option Properties">
-    <ParamField body="flight_number" type="string" required>
-      Flight number
-    </ParamField>
-    <ParamField body="departure_date" type="string" format="date" required>
-      Departure date
-    </ParamField>
-    <ParamField body="price_per_kg" type="number" required>
-      Price per kilogram
-    </ParamField>
-    <ParamField body="total_amount" type="number" required>
-      Total amount
-    </ParamField>
-    <ParamField body="currency" type="string" required>
-      Currency code
-    </ParamField>
-    <ParamField body="validity_hours" type="integer" required>
-      Price validity in hours
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-## Response (200)
-
-<ParamField status="200" type="object">
-  <ParamField name="quote_id" type="string">
+<ParamField status="200" type="PricingResponse">
+  <ParamField name="quoteId" type="string">
     Quote identifier
   </ParamField>
-  <ParamField name="status" type="string">
-    Updated quote status
-  </ParamField>
-  <ParamField name="priced_at" type="string" format="date-time">
-    Pricing timestamp
+  <ParamField name="pricing" type="array">
+    Array of submitted price options
+    <ParamField name="flightNumber" type="string">
+      Flight number
+    </ParamField>
+    <ParamField name="departureDate" type="string" format="date">
+      Departure date
+    </ParamField>
+    <ParamField name="pricePerKg" type="number">
+      Price per kilogram
+    </ParamField>
+    <ParamField name="totalAmount" type="number">
+      Total amount
+    </ParamField>
+    <ParamField name="currency" type="string">
+      Currency code
+    </ParamField>
+    <ParamField name="validityHours" type="integer">
+      Price validity in hours
+    </ParamField>
   </ParamField>
 </ParamField>

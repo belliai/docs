@@ -13,7 +13,7 @@ Post status updates/events (RCS, MAN, DEP, ARR… XFSU equivalents).
 
 ## Request Body
 
-<ParamField body="event_code" type="string" required>
+<ParamField body="eventCode" type="string" required>
   Event code (RCS, MAN, DEP, ARR, etc.)
 </ParamField>
 
@@ -29,23 +29,23 @@ Post status updates/events (RCS, MAN, DEP, ARR… XFSU equivalents).
   Event timestamp
 </ParamField>
 
-<ParamField body="additional_data" type="object">
+<ParamField body="additionalData" type="object">
   Additional event-specific data
 </ParamField>
 
 ## Response (200)
 
 <ParamField status="200" type="object">
-  <ParamField name="awb_number" type="string">
+  <ParamField name="awbNumber" type="string">
     Air Waybill number
   </ParamField>
-  <ParamField name="event_id" type="string">
+  <ParamField name="eventId" type="string">
     Unique event identifier
   </ParamField>
   <ParamField name="status" type="string">
     Event posting status
   </ParamField>
-  <ParamField name="posted_at" type="string" format="date-time">
+  <ParamField name="postedAt" type="string" format="date-time">
     Posting timestamp
   </ParamField>
 </ParamField>

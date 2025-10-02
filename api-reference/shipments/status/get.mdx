@@ -14,14 +14,14 @@ Retrieve end-to-end tracking timeline with events and documents.
 ## Response (200)
 
 <ParamField status="200" type="object">
-  <ParamField name="awb_number" type="string">
+  <ParamField name="awbNumber" type="string">
     Air Waybill number
   </ParamField>
-  <ParamField name="current_status" type="string">
+  <ParamField name="currentStatus" type="string">
     Current shipment status
   </ParamField>
   <ParamField name="events" type="array">
-    <ParamField name="event_code" type="string">
+    <ParamField name="eventCode" type="string">
       Event code (RCS, MAN, DEP, ARR, etc.)
     </ParamField>
     <ParamField name="description" type="string">
@@ -35,7 +35,7 @@ Retrieve end-to-end tracking timeline with events and documents.
     </ParamField>
   </ParamField>
   <ParamField name="documents" type="array">
-    <ParamField name="document_id" type="string">
+    <ParamField name="documentId" type="string">
       Document identifier
     </ParamField>
     <ParamField name="type" type="string">

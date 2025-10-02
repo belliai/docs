@@ -1,21 +1,42 @@
 ---
-title: 'Get Quote Details'
-openapi: 'GET /api/quotes/{id}'
+title: 'Get Quotes'
+openapi: 'GET /api/quotes'
 ---
 
-Retrieve RFQ details and lifecycle status.
+Retrieve quotes list with optional filtering, or get specific quote details by ID.
 
-## Path Parameters
 
-<ParamField path="id" type="string" required>
-  Quote identifier
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="object">
-  <ParamField name="quote_id" type="string">
-    Unique quote identifier
+  <ParamField name="quotes" type="array">
+    List of quotes (when no ID provided)
+    <ParamField name="quoteId" type="string">
+      Unique quote identifier
+    </ParamField>
+    <ParamField name="status" type="string">
+      Quote status (pending, priced, expired)
+    </ParamField>
+    <ParamField name="origin" type="string">
+      Origin airport
+    </ParamField>
+    <ParamField name="destination" type="string">
+      Destination airport
+    </ParamField>
+    <ParamField name="pieces" type="integer">
+      Number of pieces
+    </ParamField>
+    <ParamField name="weight" type="number">
+      Total weight
+    </ParamField>
+    <ParamField name="createdAt" type="string" format="date-time">
+      Creation timestamp
+    </ParamField>
+    <ParamField name="expiresAt" type="string" format="date-time">
+      Expiration timestamp
+    </ParamField>
+  </ParamField>
+  <ParamField name="quoteId" type="string">
+    Unique quote identifier (when ID provided)
   </ParamField>
   <ParamField name="status" type="string">
     Quote status (pending, priced, expired)
@@ -32,10 +53,44 @@ Retrieve RFQ details and lifecycle status.
   <ParamField name="weight" type="number">
     Total weight
   </ParamField>
-  <ParamField name="created_at" type="string" format="date-time">
+  <ParamField name="createdAt" type="string" format="date-time">
     Creation timestamp
   </ParamField>
-  <ParamField name="expires_at" type="string" format="date-time">
+  <ParamField name="expiresAt" type="string" format="date-time">
     Expiration timestamp
+  </ParamField>
+  <ParamField name="priceOptions" type="array">
+    Array of price options (when available)
+    <ParamField name="flightNumber" type="string">
+      Flight number
+    </ParamField>
+    <ParamField name="departureDate" type="string" format="date">
+      Departure date
+    </ParamField>
+    <ParamField name="pricePerKg" type="number">
+      Price per kilogram
+    </ParamField>
+    <ParamField name="totalAmount" type="number">
+      Total amount
+    </ParamField>
+    <ParamField name="currency" type="string">
+      Currency code
+    </ParamField>
+    <ParamField name="validityHours" type="integer">
+      Price validity in hours
+    </ParamField>
+  </ParamField>
+</ParamField>
+
+
+<ParamField status="404" type="NotFoundErrorResponse">
+  <ParamField name="error" type="string">
+    Error code indicating no quotes found
+  </ParamField>
+  <ParamField name="errorDescription" type="string">
+    No quotes found matching the specified criteria
+  </ParamField>
+  <ParamField name="errorUri" type="string">
+    Link to error documentation
   </ParamField>
 </ParamField>

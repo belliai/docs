@@ -7,13 +7,13 @@ Issue OAuth2/JWT access token using client credentials or password grant flow.
 
 
 <ParamField status="200" type="object">
-  <ParamField name="access_token" type="string">
+  <ParamField name="accessToken" type="string">
     JWT access token
   </ParamField>
-  <ParamField name="token_type" type="string">
+  <ParamField name="tokenType" type="string">
     Token type (usually 'Bearer')
   </ParamField>
-  <ParamField name="expires_in" type="integer">
+  <ParamField name="expiresIn" type="integer">
     Token expiration time in seconds
   </ParamField>
   <ParamField name="scope" type="string">
@@ -26,7 +26,7 @@ Issue OAuth2/JWT access token using client credentials or password grant flow.
   <ParamField name="error" type="string">
     Error code (e.g., 'invalid_client', 'invalid_grant')
   </ParamField>
-  <ParamField name="error_description" type="string">
+  <ParamField name="errorDescription" type="string">
     Human-readable error description
   </ParamField>
 </ParamField>

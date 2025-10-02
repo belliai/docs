@@ -427,7 +427,7 @@
             "description": "Invalid request",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+                "schema": { "$ref": "#/components/schemas/CargoErrorResponse" }
               }
             }
           }
@@ -435,9 +435,15 @@
       },
       "get": {
         "tags": ["quotes-v1"],
-        "summary": "List quotes",
-        "description": "Get list of quotes with optional filtering",
+        "summary": "List quotes or get quote details",
+        "description": "Get list of quotes with optional filtering, or get specific quote details by ID",
         "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": { "type": "string" },
+            "description": "Quote ID to get specific quote details"
+          },
           {
             "name": "status",
             "in": "query",
@@ -459,48 +465,23 @@
         ],
         "responses": {
           "200": {
-            "description": "Quotes list",
+            "description": "Quotes list or single quote details",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/QuotesListResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/quotes/{id}": {
-      "get": {
-        "tags": ["quotes-v1"],
-        "summary": "Get RFQ details",
-        "description": "Get RFQ details and lifecycle status",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" },
-            "description": "Quote ID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Quote details",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/QuoteResponse"
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/QuotesListResponse" },
+                    { "$ref": "#/components/schemas/QuoteResponse" }
+                  ]
                 }
               }
             }
           },
           "404": {
-            "description": "Quote not found",
+            "description": "No quotes found",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+                "schema": { "$ref": "#/components/schemas/NotFoundErrorResponse" }
               }
             }
           }
@@ -576,44 +557,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/QuoteResponseResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/quotes/{id}/decision": {
-      "post": {
-        "tags": ["quotes-v1"],
-        "summary": "Approve/reject quote",
-        "description": "Consignor approves or rejects quote with reason",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" },
-            "description": "Quote ID"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/QuoteDecisionRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Decision recorded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/QuoteDecisionResponse"
                 }
               }
             }
@@ -1352,27 +1295,65 @@
         "properties": {
           "error": {
             "type": "string",
-            "example": "invalid_client"
+            "example": "invalid_grant"
           },
-          "error_description": {
+          "errorDescription": {
             "type": "string",
-            "example": "Error description"
+            "example": "Invalid client credentials provided"
+          },
+          "errorUri": {
+            "type": "string",
+            "example": "https://docs.example.com/oauth/errors"
+          }
+        }
+      },
+      "CargoErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "invalid_request"
+          },
+          "errorDescription": {
+            "type": "string",
+            "example": "Missing required field: 'grossWeightKg' is required."
+          },
+          "errorUri": {
+            "type": "string",
+            "example": "https://docs.example.com/cargo/errors"
+          }
+        }
+      },
+      "NotFoundErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "not_found"
+          },
+          "errorDescription": {
+            "type": "string",
+            "example": "No quotes found matching the specified criteria"
+          },
+          "errorUri": {
+            "type": "string",
+            "example": "https://docs.example.com/cargo/errors"
           }
         }
       },
       "TokenRequest": {
         "type": "object",
         "properties": {
-          "grant_type": {
+          "grantType": {
             "type": "string",
             "enum": ["client_credentials", "password"],
             "example": "client_credentials"
           },
-          "client_id": {
+          "clientId": {
             "type": "string",
             "example": "your-client-id"
           },
-          "client_secret": {
+          "clientSecret": {
             "type": "string",
             "example": "your-client-secret"
           },
@@ -1389,15 +1370,15 @@
       "TokenResponse": {
         "type": "object",
         "properties": {
-          "access_token": {
+          "accessToken": {
             "type": "string",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
           },
-          "token_type": {
+          "tokenType": {
             "type": "string",
             "example": "Bearer"
           },
-          "expires_in": {
+          "expiresIn": {
             "type": "integer",
             "example": 3600
           }
@@ -1691,44 +1672,58 @@
       "QuoteRequest": {
         "type": "object",
         "properties": {
-          "origin": {
-            "type": "string",
-            "example": "DOH"
+          "shipper": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string", "example": "ABC Exports (Pvt) Ltd"}
+            }
           },
-          "destination": {
-            "type": "string",
-            "example": "LHR"
+          "consignee": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string", "example": "London Imports Ltd"}
+            }
           },
-          "pieces": {
-            "type": "integer",
-            "example": 10
+          "routing": {
+            "type": "object",
+            "properties": {
+              "origin": {"type": "string", "example": "KHI"},
+              "destination": {"type": "string", "example": "LHR"}
+            }
           },
-          "weight": {
-            "type": "number",
-            "example": 500
-          },
-          "volume": {
-            "type": "number",
-            "example": 2.5
+          "pieces": {"type": "integer", "example": 8},
+          "grossWeightKg": {"type": "number", "example": 980},
+          "dimensionsCm": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "l": {"type": "number", "example": 120},
+                "w": {"type": "number", "example": 100},
+                "h": {"type": "number", "example": 80},
+                "pieces": {"type": "integer", "example": 8}
+              }
+            }
           },
           "commodity": {
-            "type": "string",
-            "example": "GEN"
+            "type": "object",
+            "properties": {
+              "code": {"type": "string", "example": "GEN"},
+              "description": {"type": "string", "example": "General Cargo"}
+            }
           },
           "shc": {
             "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "example": ["PER"]
+            "items": {"type": "string", "example": "PER"}
           },
-          "requestedDate": {
-            "type": "string",
-            "format": "date",
-            "example": "2024-01-15"
+          "deliveryToAirlineDate": {"type": "string", "format": "date", "example": "2024-01-01"},
+          "notes": {"type": "string", "example": "Stackable"},
+          "airlineFilter": {
+            "type": "array",
+            "items": {"type": "string", "example": "PK"}
           }
         },
-        "required": ["origin", "destination", "pieces", "weight", "commodity"]
+        "required": ["shipper", "consignee", "routing", "pieces", "grossWeightKg", "commodity"]
       },
       "QuoteResponse": {
         "type": "object",
@@ -1777,6 +1772,12 @@
             "type": "string",
             "format": "date-time",
             "example": "2024-01-01T10:00:00Z"
+          },
+          "priceOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PricingOption"
+            }
           }
         }
       },
@@ -1797,25 +1798,42 @@
       "PricingRequest": {
         "type": "object",
         "properties": {
-          "flightId": {
-            "type": "string",
-            "example": "QR001-20240101"
-          },
-          "price": {
-            "type": "number",
-            "example": 1500.00
-          },
-          "currency": {
-            "type": "string",
-            "example": "USD"
-          },
-          "validUntil": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2024-01-02T10:00:00Z"
+          "priceOptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "flightNumber": {
+                  "type": "string",
+                  "example": "QR123"
+                },
+                "departureDate": {
+                  "type": "string",
+                  "format": "date",
+                  "example": "2024-01-15"
+                },
+                "pricePerKg": {
+                  "type": "number",
+                  "example": 2.50
+                },
+                "totalAmount": {
+                  "type": "number",
+                  "example": 2450.00
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "USD"
+                },
+                "validityHours": {
+                  "type": "integer",
+                  "example": 24
+                }
+              },
+              "required": ["flightNumber", "departureDate", "pricePerKg", "totalAmount", "currency", "validityHours"]
+            }
           }
         },
-        "required": ["flightId", "price", "currency"]
+        "required": ["priceOptions"]
       },
       "PricingResponse": {
         "type": "object",
@@ -1835,22 +1853,30 @@
       "PricingOption": {
         "type": "object",
         "properties": {
-          "flightId": {
+          "flightNumber": {
             "type": "string",
-            "example": "QR001-20240101"
+            "example": "QR123"
           },
-          "price": {
+          "departureDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-01-15"
+          },
+          "pricePerKg": {
             "type": "number",
-            "example": 1500.00
+            "example": 2.50
+          },
+          "totalAmount": {
+            "type": "number",
+            "example": 2450.00
           },
           "currency": {
             "type": "string",
             "example": "USD"
           },
-          "validUntil": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2024-01-02T10:00:00Z"
+          "validityHours": {
+            "type": "integer",
+            "example": 24
           }
         }
       },
@@ -1880,38 +1906,6 @@
           },
           "selectedPricing": {
             "$ref": "#/components/schemas/PricingOption"
-          }
-        }
-      },
-      "QuoteDecisionRequest": {
-        "type": "object",
-        "properties": {
-          "decision": {
-            "type": "string",
-            "enum": ["accept", "reject"],
-            "example": "accept"
-          },
-          "reason": {
-            "type": "string",
-            "example": "Pricing is acceptable"
-          }
-        },
-        "required": ["decision"]
-      },
-      "QuoteDecisionResponse": {
-        "type": "object",
-        "properties": {
-          "quoteId": {
-            "type": "string",
-            "example": "quote-123"
-          },
-          "status": {
-            "type": "string",
-            "example": "accepted"
-          },
-          "decision": {
-            "type": "string",
-            "example": "accept"
           }
         }
       },

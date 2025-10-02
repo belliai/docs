@@ -5,37 +5,16 @@ openapi: 'POST /api/quotes/{id}/respond'
 
 ACA/consignor responds to airline price proposal.
 
-## Path Parameters
 
-<ParamField path="id" type="string" required>
-  Quote identifier
-</ParamField>
-
-## Request Body
-
-<ParamField body="response" type="object" required>
-  Response details
-
-  <Expandable title="Response Properties">
-    <ParamField body="selected_option" type="integer" required>
-      Index of selected price option
-    </ParamField>
-    <ParamField body="comments" type="string">
-      Additional comments
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-## Response (200)
 
 <ParamField status="200" type="object">
-  <ParamField name="quote_id" type="string">
+  <ParamField name="quoteId" type="string">
     Quote identifier
   </ParamField>
   <ParamField name="status" type="string">
     Updated quote status
   </ParamField>
-  <ParamField name="responded_at" type="string" format="date-time">
+  <ParamField name="respondedAt" type="string" format="date-time">
     Response timestamp
   </ParamField>
 </ParamField>

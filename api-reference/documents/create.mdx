@@ -7,11 +7,11 @@ Upload ancillary documents (MSDS, COO, COI, etc.) for digital pouch.
 
 ## Request Body
 
-<ParamField body="awb_number" type="string" required>
+<ParamField body="awbNumber" type="string" required>
   Associated AWB number
 </ParamField>
 
-<ParamField body="document_type" type="string" required>
+<ParamField body="documentType" type="string" required>
   Document type (MSDS, COO, COI, etc.)
 </ParamField>
 
@@ -30,10 +30,10 @@ Upload ancillary documents (MSDS, COO, COI, etc.) for digital pouch.
 ## Response (200)
 
 <ParamField status="200" type="object">
-  <ParamField name="document_id" type="string">
+  <ParamField name="documentId" type="string">
     Unique document identifier
   </ParamField>
-  <ParamField name="awb_number" type="string">
+  <ParamField name="awbNumber" type="string">
     Associated AWB number
   </ParamField>
   <ParamField name="filename" type="string">
@@ -42,7 +42,7 @@ Upload ancillary documents (MSDS, COO, COI, etc.) for digital pouch.
   <ParamField name="status" type="string">
     Upload status
   </ParamField>
-  <ParamField name="uploaded_at" type="string" format="date-time">
+  <ParamField name="uploadedAt" type="string" format="date-time">
     Upload timestamp
   </ParamField>
 </ParamField>

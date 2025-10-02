@@ -81,8 +81,7 @@
         "api-reference/quotes/create",
         "api-reference/quotes/get",
         "api-reference/quotes/price/create",
-        "api-reference/quotes/respond/create",
-        "api-reference/quotes/decision/create"
+        "api-reference/quotes/respond/create"
       ]
     },
     {
