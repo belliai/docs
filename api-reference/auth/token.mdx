@@ -5,6 +5,12 @@ openapi: 'POST /api/auth/token'
 
 Issue OAuth2/JWT access token using client credentials or password grant flow.
 
+### Reference Documentation
+
+<Info>
+For more information on authentication flows, please refer to:
+- Page 570 of "Functional_Requirements_V18 FINAL": https://belli.sg/4nxxCDR
+</Info>
 
 <ParamField status="200" type="object">
   <ParamField name="accessToken" type="string">
@@ -20,7 +26,6 @@ Issue OAuth2/JWT access token using client credentials or password grant flow.
     Granted scopes
   </ParamField>
 </ParamField>
-
 
 <ParamField status="400" type="object">
   <ParamField name="error" type="string">
