@@ -88,8 +88,8 @@
       "group": "AWB Stock Management",
       "pages": [
         "api-reference/awb-stock/create",
-        "api-reference/awb-stock/put",
-        "api-reference/awb-stock/allocations/get"
+        "api-reference/awb-stock/allocations/get",
+        "api-reference/awb-stock/put"
       ]
     },
     {
@@ -118,17 +118,17 @@
       ]
     },
     {
-      "group": "Tracking",
-      "pages": [
-        "api-reference/shipments/status/get",
-        "api-reference/shipments/events/create"
-      ]
-    },
-    {
       "group": "Bonded Trucking & Slots",
       "pages": [
         "api-reference/trucking/transit-manifest/create",
         "api-reference/terminals/slots/create"
+      ]
+    },
+    {
+      "group": "Tracking",
+      "pages": [
+        "api-reference/shipments/status/get",
+        "api-reference/shipments/events/create"
       ]
     },
     {
