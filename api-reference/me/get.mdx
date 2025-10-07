@@ -1,40 +1,13 @@
 ---
 title: 'Get Current User Profile'
 openapi: 'GET /api/me'
+description: 'Get current user/organization profile with roles and scopes'
 ---
 
 Retrieve current user/organization profile information.
 
 
-<ParamField status="200" type="UserProfile">
-  <ParamField name="id" type="string">
-    User/organization unique identifier
-  </ParamField>
-  <ParamField name="email" type="string">
-    User email
-  </ParamField>
-  <ParamField name="organization" type="string">
-    Organization name
-  </ParamField>
-  <ParamField name="roles" type="array">
-    List of assigned roles
-  </ParamField>
-  <ParamField name="scopes" type="array">
-    List of granted OAuth2 scopes
-  </ParamField>
-</ParamField>
-
-
-<ParamField status="401" type="object">
-  <ParamField name="error" type="string">
-    Error code (e.g., 'invalid_client', 'invalid_grant')
-  </ParamField>
-  <ParamField name="errorDescription" type="string">
-    Human-readable error description
-  </ParamField>
-</ParamField>
-
-### Reference Documentation
+## Reference Documentation
 
 <Info>
 For more information on user administration, please refer to:

@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://mock-server-hazel-tau.vercel.app",
+      "url": "https://gold-meteor-470338.postman.co/workspace/Belli~81e2d8da-3731-4bee-8d30-00088b6bbf26/environment/36739597-0915dbf9-62c0-4dd6-8a9d-4dcaa2b721bf?action=share&creator=36739597",
       "description": "Production server"
     }
   ],
