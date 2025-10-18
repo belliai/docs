@@ -1384,6 +1384,35 @@
           }
         }
       }
+    },
+    "/api/hawb/drafts": {
+      "post": {
+        "tags": ["shipments-v1"],
+        "summary": "Receive HAWB as Draft (XFZB/FHL)",
+        "description": "Ingest HAWB as a draft from XFZB/FHL sources before finalization.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HAWBDraftRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Draft Created Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HAWBDraftResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3607,6 +3636,104 @@
           "totalPages": {
             "type": "integer",
             "example": 10
+          }
+        }
+      },
+      "HAWBDraftRequest": {
+        "type": "object",
+        "properties": {
+          "masterAwb": {
+            "type": "string",
+            "example": "157-12345675"
+          },
+          "hawbNumber": { 
+            "type": "string", 
+            "example": "HAWB-0001" 
+          },
+          "origin": { 
+            "type": "string", 
+            "example": "DOH" 
+          },
+          "destination": { 
+            "type": "string", 
+            "example": "LHR" 
+          },
+          "shipper": { 
+            "type": "object", 
+            "properties": { 
+              "name": { 
+                "type": "string", 
+                "example": "ACME Export"
+              },
+              "address": { 
+                "type": "string", 
+                "example": "123 Export Street"
+              }
+            }
+          },
+          "consignee": { 
+            "type": "object", 
+            "properties": { 
+              "name": { 
+                "type": "string", 
+                "example": "ACME UK"
+              },
+              "address": { 
+                "type": "string", 
+                "example": "456 Import Avenue"
+              }
+            }
+          },
+          "pieces": { 
+            "type": "integer", 
+            "example": 5
+          },
+          "weightKg": { 
+            "type": "number", 
+            "example": 250.5
+          },
+          "volumeCbm": { 
+            "type": "number", 
+            "example": 1.2
+          },
+          "goodsDescription": { 
+            "type": "string", 
+            "example": "Electronics"
+          },
+          "iataMessages": {
+            "type": "object",
+            "properties": {
+              "xfzb": { 
+                "type": "string", 
+                "example": "<XFZB XML or IMP here>"
+              },
+              "fhl": { 
+                "type": "string", 
+                "example": "<FHL if sent>"
+              }
+            }
+          }
+        },
+        "required": ["masterAwb", "hawbNumber", "origin", "destination", "shipper", "consignee", "pieces"]
+      },
+      "HAWBDraftResponse": {
+        "type": "object",
+        "properties": {
+          "hawbId": { 
+            "type": "string", 
+            "example": "hawb_01HXYZ"
+          },
+          "hawbNumber": { 
+            "type": "string", 
+            "example": "HAWB-0001"
+          },
+          "status": { 
+            "type": "string", 
+            "example": "draft"
+          },
+          "linkedMawb": { 
+            "type": "string", 
+            "example": "157-12345675" 
           }
         }
       }

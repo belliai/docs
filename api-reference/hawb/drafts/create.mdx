@@ -1,0 +1,37 @@
+---
+title: 'Receive HAWB as Draft (XFZB/FHL)'
+openapi: 'POST /api/hawb/drafts'
+---
+
+Receive House Air Waybill (HAWB) as draft with FHL/XFZB data format.
+
+
+<ParamField status="200" type="object">
+  <ParamField name="hawbNumber" type="string">
+    House Air Waybill number
+  </ParamField>
+  <ParamField name="status" type="string">
+    Draft creation status
+  </ParamField>
+</ParamField>
+
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>
+
+### Reference Documentation
+
+<Info>
+For more information on HAWB draft handling with FHL/XFZB format, please refer to:
+- Pages 196–197 of "Functional_Requirements_V18 FINAL": https://belli.sg/4nxxCDR
+</Info>

@@ -104,6 +104,7 @@
     {
       "group": "Shipment Documents",
       "pages": [
+        "api-reference/hawb/drafts/create",
         "api-reference/mawb/create",
         "api-reference/hawb/create",
         "api-reference/documents/create"
