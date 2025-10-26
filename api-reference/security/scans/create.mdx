@@ -1,0 +1,27 @@
+---
+title: 'Send Security Scan (X-ray) to Customs'
+openapi: 'POST /api/security/scans'
+---
+
+
+
+
+<ParamField status="201" type="object">
+  <ParamField name="scanId" type="string">
+    Unique scan identifier
+  </ParamField>
+  <ParamField name="awb" type="string">
+    AWB number
+  </ParamField>
+  <ParamField name="status" type="string">
+    Transmission status
+  </ParamField>
+</ParamField>
+
+### Reference Documentation
+
+<Info>
+For more information on security scan transmission to customs, please refer to:
+- Pages 197-198 of "Functional_Requirements_V18 FINAL": https://belli.sg/4hrqpTT
+</Info>
+

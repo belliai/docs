@@ -1,0 +1,39 @@
+---
+title: 'Ingest Flight Booking List (XFBL/FBL)'
+openapi: 'POST /api/flights/{id}/bookings'
+---
+
+
+<ParamField status="202" type="object">
+  <ParamField name="flightId" type="string">
+    Flight identifier
+  </ParamField>
+  <ParamField name="accepted" type="integer">
+    Number of accepted bookings
+  </ParamField>
+  <ParamField name="failed" type="integer">
+    Number of failed bookings
+  </ParamField>
+</ParamField>
+
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>
+
+### Reference Documentation
+
+<Info>
+For more information on FBL/XFBL booking ingestion, please refer to:
+- Page 163 of "Functional_Requirements_V18 FINAL": https://belli.sg/4htHWul
+</Info>
+

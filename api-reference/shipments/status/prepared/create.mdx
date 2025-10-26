@@ -1,0 +1,28 @@
+---
+title: 'Send Status: Prepared for Loading (XFSU PRE)'
+openapi: 'POST /api/shipments/{awb}/status/prepared'
+---
+
+
+
+<ParamField status="200" type="object">
+  <ParamField name="awb" type="string">
+    AWB number
+  </ParamField>
+  <ParamField name="status" type="string">
+    Current status
+  </ParamField>
+  <ParamField name="notified" type="array">
+    List of notified stakeholders
+  </ParamField>
+</ParamField>
+
+
+
+### Reference Documentation
+
+<Info>
+For more information on XFSU status notifications, please refer to:
+- Pages 218-221 of "Functional_Requirements_V18 FINAL": https://belli.sg/3WXYLnO
+</Info>
+

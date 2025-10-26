@@ -1,0 +1,25 @@
+---
+title: 'Send Secondary Screening (ETD/EDD) Result'
+openapi: 'POST /api/security/scans/secondary'
+---
+
+
+<ParamField status="201" type="object">
+  <ParamField name="id" type="string">
+    Unique secondary scan identifier
+  </ParamField>
+  <ParamField name="awb" type="string">
+    AWB number
+  </ParamField>
+  <ParamField name="status" type="string">
+    Transmission status
+  </ParamField>
+</ParamField>
+
+### Reference Documentation
+
+<Info>
+For more information on secondary screening (ETD/EDD) results, please refer to:
+- Page 199 of "Functional_Requirements_V18 FINAL": https://belli.sg/3WoS9yF
+</Info>
+

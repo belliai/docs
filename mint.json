@@ -136,7 +136,11 @@
       "group": "Operational Events & Manifests",
       "pages": [
         "api-reference/flights/manifests/create",
-        "api-reference/offloads/create"
+        "api-reference/offloads/create",
+        "api-reference/flights/bookings/create",
+        "api-reference/security/scans/create",
+        "api-reference/security/scans/secondary/create",
+        "api-reference/shipments/status/prepared/create"
       ]
     },
     {

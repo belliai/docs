@@ -827,6 +827,42 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": ["flights-v1"],
+        "summary": "Ingest Flight Booking List (XFBL/FBL)",
+        "description": "Bulk ingestion of bookings from Airline FBL/XFBL.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Flight ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FlightBookingBulkRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Bookings Ingested Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlightBookingBulkResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/mawb": {
@@ -880,6 +916,44 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HAWBResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shipments/{awb}/status/prepared": {
+      "post": {
+        "tags": ["shipments-v1"],
+        "summary": "Send Status: Prepared for Loading (XFSU PRE)",
+        "description": "Notify stakeholders that shipment is prepared for loading (XFSU PRE).",
+        "parameters": [
+          {
+            "name": "awb",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "AWB number"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreparedForLoadingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status Notified",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreparedForLoadingResponse"
                 }
               }
             }
@@ -1045,6 +1119,64 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/OAuthErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/security/scans": {
+      "post": {
+        "tags": ["compliance-v1"],
+        "summary": "Send Security Scan (X-ray) to Customs",
+        "description": "Transmit x-ray scan metadata + image to Customs.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/SecurityScanRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Scan Sent to Customs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecurityScanResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/security/scans/secondary": {
+      "post": {
+        "tags": ["compliance-v1"],
+        "summary": "Send Secondary Screening (ETD/EDD) Result",
+        "description": "Secondary screening outcome to Airline & Customs.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SecondaryScanRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Secondary Scan Sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecondaryScanResponse"
                 }
               }
             }
@@ -3642,7 +3774,7 @@
       "HAWBDraftRequest": {
         "type": "object",
         "properties": {
-          "masterAwb": {
+          "awbNumber": {
             "type": "string",
             "example": "157-12345675"
           },
@@ -3688,11 +3820,11 @@
             "type": "integer", 
             "example": 5
           },
-          "weightKg": { 
+          "weight": { 
             "type": "number", 
             "example": 250.5
           },
-          "volumeCbm": { 
+          "volume": { 
             "type": "number", 
             "example": 1.2
           },
@@ -3714,7 +3846,7 @@
             }
           }
         },
-        "required": ["masterAwb", "hawbNumber", "origin", "destination", "shipper", "consignee", "pieces"]
+        "required": ["awbNumber", "hawbNumber", "origin", "destination", "shipper", "consignee", "pieces"]
       },
       "HAWBDraftResponse": {
         "type": "object",
@@ -3731,9 +3863,234 @@
             "type": "string", 
             "example": "draft"
           },
-          "linkedMawb": { 
+          "linkedAwb": { 
             "type": "string", 
             "example": "157-12345675" 
+          }
+        }
+      },
+      "FlightBookingBulkRequest": {
+        "type": "object",
+        "properties": {
+          "flightId": { 
+            "type": "string", 
+            "example": "QR001-20240101"
+          },
+          "bookings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightBookingItem"
+            }
+          }
+        },
+        "required": ["flightId", "bookings"]
+      },
+      "FlightBookingItem": {
+        "type": "object",
+        "properties": {
+          "awbNumber": { 
+            "type": "string", 
+            "example": "157-12345678"
+          },
+          "pieces": { 
+            "type": "integer", 
+            "example": 10
+          },
+          "weight": { 
+            "type": "number", 
+            "example": 500
+          },
+          "volume": { 
+            "type": "number", 
+            "example": 2.1
+          },
+          "origin": { 
+            "type": "string", 
+            "example": "DOH"
+          },
+          "destination": { 
+            "type": "string", 
+            "example": "LHR"
+          },
+          "status": { 
+            "type": "string", 
+            "example": "BKD"
+          },
+          "xfbl": { 
+            "type": "string", 
+            "example": "<XFBL XML or IMP>"
+          },
+          "fbl": { 
+            "type": "string", 
+            "example": "<FBL if sent>"
+          }
+        },
+        "required": ["awb"]
+      },
+      "FlightBookingBulkResponse": {
+        "type": "object",
+        "properties": {
+          "flightId": { 
+            "type": "string", 
+            "example": "QR001-20240101"
+          },
+          "accepted": { 
+            "type": "integer", 
+            "example": 1
+          },
+          "failed": { 
+            "type": "integer", 
+            "example": 0
+          }
+        }
+      },
+      "SecurityScanRequest": {
+        "type": "object",
+        "properties": {
+          "awbNumber": { 
+            "type": "string", 
+            "example": "157-12345678"
+          },
+          "scanType": { 
+            "type": "string", 
+            "example": "XRAY"
+          },
+          "scanResult": { 
+            "type": "string", 
+            "example": "CLEAR"
+          },
+          "performedAt": { 
+            "type": "string", 
+            "format": "date-time",
+            "example": "2024-01-01T12:00:00Z"
+          },
+          "image": { 
+            "type": "string", 
+            "format": "binary",
+            "description": "X-ray scan image file"
+          }
+        },
+        "required": ["awbNumber", "scanType", "scanResult", "performedAt", "image"]
+      },
+      "SecurityScanResponse": {
+        "type": "object",
+        "properties": {
+          "scanId": { 
+            "type": "string", 
+            "example": "scan_01HLMN"
+          },
+          "awb": { 
+            "type": "string", 
+            "example": "157-12345678"
+          },
+          "status": { 
+            "type": "string", 
+            "example": "sent"
+          }
+        }
+      },
+      "SecondaryScanRequest": {
+        "type": "object",
+        "properties": {
+          "awbNumber": { 
+            "type": "string", 
+            "example": "157-12345678"
+          },
+          "method": { 
+            "type": "string", 
+            "example": "ETD"
+          },
+          "result": { 
+            "type": "string", 
+            "example": "CLEAR"
+          },
+          "performedAt": { 
+            "type": "string", 
+            "format": "date-time",
+            "example": "2024-01-01T13:00:00Z"
+          },
+          "report": { 
+            "type": "string", 
+            "example": "<optional PDF or reference>"
+          },
+          "notify": {
+            "type": "array",
+            "items": { 
+              "type": "string"
+            },
+            "example": ["airline", "customs"]
+          }
+        },
+        "required": ["awbNumber", "method", "result", "performedAt"]
+      },
+      "SecondaryScanResponse": {
+        "type": "object",
+        "properties": {
+          "id": { 
+            "type": "string", 
+            "example": "secscan_01HPRS"
+          },
+          "awbNumber": { 
+            "type": "string", 
+            "example": "157-12345678"
+          },
+          "status": { 
+            "type": "string", 
+            "example": "sent"
+          }
+        }
+      },
+      "PreparedForLoadingRequest": {
+        "type": "object",
+        "properties": {
+          "statusCode": { 
+            "type": "string", 
+            "example": "PRE"
+          },
+          "pieces": { 
+            "type": "integer", 
+            "example": 10
+          },
+          "weight": { 
+            "type": "number", 
+            "example": 500
+          },
+          "uld": { 
+            "type": "string", 
+            "example": "AKE12345QR"
+          },
+          "updatedAt": { 
+            "type": "string", 
+            "format": "date-time",
+            "example": "2024-01-01T15:00:00Z"
+          },
+          "notify": {
+            "type": "array",
+            "items": { 
+              "type": "string"
+            },
+            "example": ["airline", "aca", "consignor"]
+          }
+        },
+        "required": ["statusCode", "updatedAt", "notify"]
+      },
+      "PreparedForLoadingResponse": {
+        "type": "object",
+        "properties": {
+          "awbNumber": { 
+            "type": "string", 
+            "example": "157-12345678"
+          },
+          "status": { 
+            "type": "string", 
+            "example": "PRE"
+          },
+          "notified": {
+            "type": "array",
+            "items": { 
+              "type": "string"
+            },
+            "example": ["airline", "aca", "consignor"]
           }
         }
       }
