@@ -1,0 +1,31 @@
+---
+title: 'Configure EPO Item Pricing'
+openapi: 'POST /api/epo/item-pricing'
+---
+
+
+<ParamField status="200" type="object">
+  <ParamField name="pricingId" type="string">
+    Pricing configuration identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Configuration status
+  </ParamField>
+  <ParamField name="itemCategoriesConfigured" type="integer">
+    Number of categories configured
+  </ParamField>
+  <ParamField name="serviceLevelsConfigured" type="integer">
+    Number of service levels configured
+  </ParamField>
+  <ParamField name="message" type="string">
+    Status message
+  </ParamField>
+</ParamField>
+
+### Reference Documentation
+
+<Info>
+For more information on EPO item pricing configuration, please refer to:
+- Page 32 of "Functional_Requirements_V18 FINAL": https://belli.sg/4oz9ZuL
+</Info>
+

@@ -564,6 +564,64 @@
         }
       }
     },
+    "/api/epo/pricing-config": {
+      "post": {
+        "tags": ["reference-data-v1"],
+        "summary": "Configure EPO Pricing",
+        "description": "Configure different pricing tiers for Express Parcel Operators (EPO) based on specific consignors. This API allows EPO to set custom pricing rules for individual consignors based on volume agreements, service levels, or negotiated rates.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EPOPricingConfigRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pricing configuration successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EPOPricingConfigResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/epo/item-pricing": {
+      "post": {
+        "tags": ["reference-data-v1"],
+        "summary": "Configure EPO Item Pricing",
+        "description": "Configure item-specific pricing and service levels for Express Parcel Operators. This allows EPO to offer differentiated pricing based on item type, dimensions, handling requirements, and service levels.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EPOItemPricingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Item pricing and service levels successfully configured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EPOItemPricingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/awb-stock/requests": {
       "post": {
         "tags": ["awb-stock-v1"],
@@ -858,6 +916,44 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/FlightBookingBulkResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/airlines/{airlineCode}/bookings": {
+      "post": {
+        "tags": ["bookings-v1"],
+        "summary": "Direct Airline Booking",
+        "description": "Create a direct booking with a specific airline system. This API facilitates direct digital booking between ACS and airline systems without intermediate steps.",
+        "parameters": [
+          {
+            "name": "airlineCode",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Airline code (IATA)"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirectAirlineBookingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Booking confirmed with airline",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirectAirlineBookingResponse"
                 }
               }
             }
@@ -4091,6 +4187,452 @@
               "type": "string"
             },
             "example": ["airline", "aca", "consignor"]
+          }
+        }
+      },
+      "EPOPricingConfigRequest": {
+        "type": "object",
+        "properties": {
+          "epoId": { 
+            "type": "string", 
+            "example": "EPO-123"
+          },
+          "consignorId": { 
+            "type": "string", 
+            "example": "CGNR-456"
+          },
+          "pricingRules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PricingRule"
+            }
+          },
+          "validFrom": { 
+            "type": "string", 
+            "format": "date",
+            "example": "2025-01-01"
+          },
+          "validTo": { 
+            "type": "string", 
+            "format": "date",
+            "example": "2025-12-31"
+          },
+          "autoRenew": { 
+            "type": "boolean", 
+            "example": true
+          },
+          "notes": { 
+            "type": "string", 
+            "example": "Special pricing agreement for premium customer"
+          }
+        },
+        "required": ["epoId", "consignorId", "pricingRules", "validFrom", "validTo"]
+      },
+      "PricingRule": {
+        "type": "object",
+        "properties": {
+          "serviceLevel": { 
+            "type": "string", 
+            "example": "EXPRESS"
+          },
+          "basePricePerKg": { 
+            "type": "number", 
+            "example": 3.50
+          },
+          "minimumCharge": { 
+            "type": "number", 
+            "example": 50.00
+          },
+          "currency": { 
+            "type": "string", 
+            "example": "USD"
+          },
+          "volumeDiscounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VolumeDiscount"
+            }
+          },
+          "surcharges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Surcharge"
+            }
+          }
+        }
+      },
+      "VolumeDiscount": {
+        "type": "object",
+        "properties": {
+          "minWeightKg": { 
+            "type": "number", 
+            "example": 100
+          },
+          "maxWeightKg": { 
+            "type": "number", 
+            "example": 500
+          },
+          "discountPercent": { 
+            "type": "number", 
+            "example": 5
+          }
+        }
+      },
+      "Surcharge": {
+        "type": "object",
+        "properties": {
+          "type": { 
+            "type": "string", 
+            "example": "FUEL"
+          },
+          "percentage": { 
+            "type": "number", 
+            "example": 12.5
+          },
+          "fixedAmount": { 
+            "type": "number", 
+            "example": 0.25
+          }
+        }
+      },
+      "EPOPricingConfigResponse": {
+        "type": "object",
+        "properties": {
+          "configId": { 
+            "type": "string", 
+            "example": "CONF-789"
+          },
+          "status": { 
+            "type": "string", 
+            "example": "ACTIVE"
+          },
+          "createdAt": { 
+            "type": "string", 
+            "format": "date-time",
+            "example": "2024-12-20T10:30:00Z"
+          },
+          "createdBy": { 
+            "type": "string", 
+            "format": "email",
+            "example": "user@example.com"
+          },
+          "message": { 
+            "type": "string", 
+            "example": "Pricing configuration successfully created"
+          }
+        }
+      },
+      "EPOItemPricingRequest": {
+        "type": "object",
+        "properties": {
+          "epoId": { 
+            "type": "string", 
+            "example": "EPO-123"
+          },
+          "itemCategories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemCategory"
+            }
+          },
+          "effectiveDate": { 
+            "type": "string", 
+            "format": "date",
+            "example": "2025-01-01"
+          },
+          "currency": { 
+            "type": "string", 
+            "example": "USD"
+          },
+          "taxRate": { 
+            "type": "number", 
+            "example": 0.10
+          }
+        },
+        "required": ["epoId", "itemCategories", "effectiveDate", "currency"]
+      },
+      "ItemCategory": {
+        "type": "object",
+        "properties": {
+          "categoryCode": { 
+            "type": "string", 
+            "example": "DOCUMENTS"
+          },
+          "categoryName": { 
+            "type": "string", 
+            "example": "Documents & Papers"
+          },
+          "serviceLevels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceLevel"
+            }
+          }
+        }
+      },
+      "ServiceLevel": {
+        "type": "object",
+        "properties": {
+          "code": { 
+            "type": "string", 
+            "example": "NEXT_DAY"
+          },
+          "name": { 
+            "type": "string", 
+            "example": "Next Day Delivery"
+          },
+          "pricePerItem": { 
+            "type": "number", 
+            "example": 25.00
+          },
+          "basePricePerKg": { 
+            "type": "number", 
+            "example": 5.00
+          },
+          "minimumCharge": { 
+            "type": "number", 
+            "example": 35.00
+          },
+          "maxWeightKg": { 
+            "type": "number", 
+            "example": 30
+          },
+          "maxDimensionsCm": {
+            "type": "object",
+            "properties": {
+              "length": { "type": "number", "example": 35 },
+              "width": { "type": "number", "example": 25 },
+              "height": { "type": "number", "example": 5 }
+            }
+          },
+          "volumetricDivisor": { 
+            "type": "number", 
+            "example": 5000
+          },
+          "transitTimeHours": { 
+            "type": "integer", 
+            "example": 24
+          },
+          "specialHandlingOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpecialHandlingOption"
+            }
+          }
+        }
+      },
+      "SpecialHandlingOption": {
+        "type": "object",
+        "properties": {
+          "code": { 
+            "type": "string", 
+            "example": "FRAGILE"
+          },
+          "surcharge": { 
+            "type": "number", 
+            "example": 10.00
+          }
+        }
+      },
+      "EPOItemPricingResponse": {
+        "type": "object",
+        "properties": {
+          "pricingId": { 
+            "type": "string", 
+            "example": "PRICE-456"
+          },
+          "status": { 
+            "type": "string", 
+            "example": "CONFIGURED"
+          },
+          "itemCategoriesConfigured": { 
+            "type": "integer", 
+            "example": 2
+          },
+          "serviceLevelsConfigured": { 
+            "type": "integer", 
+            "example": 4
+          },
+          "message": { 
+            "type": "string", 
+            "example": "Item pricing and service levels successfully configured"
+          }
+        }
+      },
+      "DirectAirlineBookingRequest": {
+        "type": "object",
+        "properties": {
+          "bookingReference": { 
+            "type": "string", 
+            "example": "BK-2025-001234"
+          },
+          "quoteId": { 
+            "type": "string", 
+            "example": "QT-789"
+          },
+          "awb": {
+            "$ref": "#/components/schemas/AWB"
+          },
+          "shipper": {
+            "$ref": "#/components/schemas/PartyWithContact"
+          },
+          "consignee": {
+            "$ref": "#/components/schemas/PartyWithContact"
+          },
+          "routing": {
+            "$ref": "#/components/schemas/Routing"
+          },
+          "cargo": {
+            "$ref": "#/components/schemas/Cargo"
+          },
+          "serviceLevel": { 
+            "type": "string", 
+            "example": "PRIORITY"
+          },
+          "bookingAgent": {
+            "$ref": "#/components/schemas/BookingAgent"
+          },
+          "paymentTerms": { 
+            "type": "string", 
+            "example": "PREPAID"
+          },
+          "remarks": { 
+            "type": "string", 
+            "example": "Handle with care - fragile electronics"
+          }
+        },
+        "required": ["bookingReference", "shipper", "consignee", "routing", "cargo"]
+      },
+      "AWB": {
+        "type": "object",
+        "properties": {
+          "prefix": { "type": "string", "example": "157" },
+          "number": { "type": "string", "example": "12345678" }
+        }
+      },
+      "PartyWithContact": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "address": { "type": "string" },
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          }
+        }
+      },
+      "Contact": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "phone": { "type": "string" },
+          "email": { "type": "string", "format": "email" }
+        }
+      },
+      "Routing": {
+        "type": "object",
+        "properties": {
+          "origin": { "type": "string", "example": "SIN" },
+          "destination": { "type": "string", "example": "LHR" },
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightSegment"
+            }
+          }
+        },
+        "required": ["origin", "destination", "segments"]
+      },
+      "FlightSegment": {
+        "type": "object",
+        "properties": {
+          "carrier": { "type": "string", "example": "SQ" },
+          "flightNumber": { "type": "string", "example": "SQ308" },
+          "departureDate": { "type": "string", "format": "date", "example": "2025-01-15" },
+          "from": { "type": "string", "example": "SIN" },
+          "to": { "type": "string", "example": "LHR" },
+          "allotmentCode": { "type": "string", "example": "FREE_SALE" }
+        }
+      },
+      "Cargo": {
+        "type": "object",
+        "properties": {
+          "pieces": { "type": "integer", "example": 10 },
+          "grossWeightKg": { "type": "number", "example": 250.5 },
+          "chargeableWeightKg": { "type": "number", "example": 300 },
+          "volumeCbm": { "type": "number", "example": 1.5 },
+          "commodity": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string", "example": "GEN" },
+              "description": { "type": "string", "example": "Electronics Equipment" }
+            }
+          },
+          "specialHandling": {
+            "type": "array",
+            "items": { "type": "string" },
+            "example": ["ELI", "VAL"]
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dimension"
+            }
+          }
+        }
+      },
+      "Dimension": {
+        "type": "object",
+        "properties": {
+          "pieces": { "type": "integer", "example": 10 },
+          "length": { "type": "number", "example": 100 },
+          "width": { "type": "number", "example": 50 },
+          "height": { "type": "number", "example": 30 },
+          "unit": { "type": "string", "example": "CM" }
+        }
+      },
+      "BookingAgent": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string", "example": "ACA-123" },
+          "name": { "type": "string", "example": "Premium Cargo Agent" }
+        }
+      },
+      "DirectAirlineBookingResponse": {
+        "type": "object",
+        "properties": {
+          "bookingId": { 
+            "type": "string", 
+            "example": "AL-BK-2025-987654"
+          },
+          "status": { 
+            "type": "string", 
+            "example": "CONFIRMED"
+          },
+          "airlineConfirmationNumber": { 
+            "type": "string", 
+            "example": "SQ-CONF-123456"
+          },
+          "flightDetails": {
+            "$ref": "#/components/schemas/FlightDetails"
+          },
+          "message": { 
+            "type": "string", 
+            "example": "Booking confirmed with airline"
+          }
+        }
+      },
+      "FlightDetails": {
+        "type": "object",
+        "properties": {
+          "flightNumber": { "type": "string", "example": "SQ308" },
+          "departureDateTime": { "type": "string", "format": "date-time", "example": "2025-01-15T23:30:00Z" },
+          "arrivalDateTime": { "type": "string", "format": "date-time", "example": "2025-01-16T05:45:00Z" },
+          "capacity": {
+            "type": "object",
+            "properties": {
+              "allocated": { "type": "number", "example": 300 },
+              "unit": { "type": "string", "example": "KG" }
+            }
           }
         }
       }

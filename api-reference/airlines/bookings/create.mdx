@@ -1,0 +1,46 @@
+---
+title: 'Direct Airline Booking'
+openapi: 'POST /api/airlines/{airlineCode}/bookings'
+---
+
+
+
+<ParamField status="200" type="object">
+  <ParamField name="bookingId" type="string">
+    Booking identifier
+  </ParamField>
+  <ParamField name="status" type="string">
+    Booking status
+  </ParamField>
+  <ParamField name="airlineConfirmationNumber" type="string">
+    Airline confirmation number
+  </ParamField>
+  <ParamField name="flightDetails" type="object">
+    Flight details with departure, arrival, and capacity information
+  </ParamField>
+  <ParamField name="message" type="string">
+    Status message
+  </ParamField>
+</ParamField>
+
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Error message
+  </ParamField>
+</ParamField>
+
+
+<ParamField status="401" type="object">
+  <ParamField name="error" type="string">
+    Unauthorized error message
+  </ParamField>
+</ParamField>
+
+### Reference Documentation
+
+<Info>
+For more information on direct airline bookings, please refer to:
+- Page 21 of "Functional_Requirements_V18 FINAL": https://belli.sg/4obmxJa
+</Info>
+
