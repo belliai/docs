@@ -793,6 +793,60 @@
         }
       }
     },
+    "/api/bookings/xffr": {
+      "post": {
+        "tags": ["bookings-v1"],
+        "summary": "Create XFFR-Compliant Booking",
+        "description": "Creates a new shipment booking using IATA XFFR v3.10 standard format. Supports both XML and JSON representations of the XFFR message.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/XFFRMessageJSON"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/XFFRMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Booking created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/XFFRBookingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request - validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - duplicate AWB number",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/bookings/{id}": {
       "get": {
         "tags": ["bookings-v1"],
@@ -4635,6 +4689,501 @@
             }
           }
         }
+      },
+      "XFFRMessageJSON": {
+        "type": "object",
+        "required": ["messageHeader", "businessHeader", "masterConsignment"],
+        "properties": {
+          "messageHeader": {
+            "$ref": "#/components/schemas/MessageHeader"
+          },
+          "businessHeader": {
+            "$ref": "#/components/schemas/BusinessHeader"
+          },
+          "masterConsignment": {
+            "$ref": "#/components/schemas/MasterConsignment"
+          }
+        }
+      },
+      "MessageHeader": {
+        "type": "object",
+        "required": ["messageReferenceID", "messageName", "messageType", "dateTimeStamp", "messageFunction", "messageVersion", "senderParty", "recipientParty"],
+        "properties": {
+          "messageReferenceID": {
+            "type": "string",
+            "maxLength": 70
+          },
+          "messageName": {
+            "type": "string",
+            "enum": ["Air Waybill"]
+          },
+          "messageType": {
+            "type": "string",
+            "enum": ["740"]
+          },
+          "dateTimeStamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "messageFunction": {
+            "type": "string",
+            "enum": ["Creation", "Deletion", "Update", "Request", "Response"]
+          },
+          "messageVersion": {
+            "type": "string",
+            "enum": ["3.10"]
+          },
+          "conversationID": {
+            "type": "string",
+            "maxLength": 70
+          },
+          "senderParty": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartyXFFR"
+            }
+          },
+          "recipientParty": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartyXFFR"
+            }
+          }
+        }
+      },
+      "PartyXFFR": {
+        "type": "object",
+        "required": ["primaryID", "schemeID"],
+        "properties": {
+          "primaryID": {
+            "type": "string",
+            "maxLength": 70
+          },
+          "schemeID": {
+            "type": "string",
+            "enum": ["C", "T", "P"]
+          }
+        }
+      },
+      "BusinessHeader": {
+        "type": "object",
+        "required": ["bookingRequestID"],
+        "properties": {
+          "bookingRequestID": {
+            "type": "string",
+            "maxLength": 70
+          },
+          "senderAssignedID": {
+            "type": "string",
+            "maxLength": 70
+          },
+          "includedHeaderNote": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "contentCode": {
+                  "type": "string",
+                  "maxLength": 3
+                },
+                "content": {
+                  "type": "string",
+                  "maxLength": 195
+                }
+              }
+            }
+          }
+        }
+      },
+      "MasterConsignment": {
+        "type": "object",
+        "required": ["requestorParty", "specifiedLogisticsTransportMovement", "totalPieceQuantity", "grossWeightMeasure", "loadTypeCode", "shipmentTypeCode"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[0-9]{3}-[0-9]{8}$"
+          },
+          "grossWeightMeasure": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "number",
+                "minimum": 0.1,
+                "maximum": 9999999
+              },
+              "unitCode": {
+                "type": "string",
+                "enum": ["KGM"]
+              }
+            }
+          },
+          "grossVolumeMeasure": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "number",
+                "minimum": 0
+              },
+              "unitCode": {
+                "type": "string",
+                "enum": ["MTQ"]
+              }
+            }
+          },
+          "loadTypeCode": {
+            "type": "string",
+            "enum": ["BLK", "ULD"]
+          },
+          "shipmentTypeCode": {
+            "type": "string",
+            "enum": ["T", "P", "S"]
+          },
+          "densityGroupCode": {
+            "type": "string",
+            "pattern": "^[0-9]{2}$"
+          },
+          "totalPieceQuantity": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 99999
+          },
+          "productID": {
+            "type": "string",
+            "maxLength": 70
+          },
+          "summaryDescription": {
+            "type": "string",
+            "maxLength": 195
+          },
+          "consignorParty": {
+            "$ref": "#/components/schemas/ConsignmentPartyXFFR"
+          },
+          "consigneeParty": {
+            "$ref": "#/components/schemas/ConsignmentPartyXFFR"
+          },
+          "requestorParty": {
+            "$ref": "#/components/schemas/RequestorPartyXFFR"
+          },
+          "originLocation": {
+            "$ref": "#/components/schemas/LocationXFFR"
+          },
+          "finalDestinationLocation": {
+            "$ref": "#/components/schemas/LocationXFFR"
+          },
+          "specifiedLogisticsTransportMovement": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransportMovement"
+            }
+          },
+          "handlingSPHInstructions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SPHInstruction"
+            }
+          },
+          "handlingSSRInstructions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SSRInstruction"
+            }
+          },
+          "includedCustomsNote": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomsNote"
+            }
+          },
+          "includedMasterConsignmentItem": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsignmentItem"
+            }
+          }
+        }
+      },
+      "ConsignmentPartyXFFR": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "primaryID": {
+            "type": "string",
+            "maxLength": 70
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 70
+          },
+          "accountID": {
+            "type": "string",
+            "maxLength": 14
+          },
+          "postalStructuredAddress": {
+            "type": "object",
+            "properties": {
+              "postcodeCode": { "type": "string", "maxLength": 17 },
+              "streetName": { "type": "string", "maxLength": 70 },
+              "cityName": { "type": "string", "maxLength": 70 },
+              "cityID": { "type": "string", "maxLength": 3 },
+              "countryID": { "type": "string", "pattern": "^[A-Z]{2}$" },
+              "countryName": { "type": "string", "maxLength": 70 },
+              "countrySubDivisionName": { "type": "string", "maxLength": 70 },
+              "countrySubDivisionID": { "type": "string", "maxLength": 9 }
+            }
+          },
+          "definedTradeContact": {
+            "type": "object",
+            "properties": {
+              "personName": { "type": "string", "maxLength": 70 },
+              "departmentName": { "type": "string", "maxLength": 70 },
+              "directTelephoneCommunication": {
+                "type": "object",
+                "properties": {
+                  "completeNumber": { "type": "string", "maxLength": 20 }
+                }
+              },
+              "uriEmailCommunication": {
+                "type": "object",
+                "properties": {
+                  "uriID": { "type": "string", "format": "email", "maxLength": 70 }
+                }
+              }
+            }
+          }
+        }
+      },
+      "RequestorPartyXFFR": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ConsignmentPartyXFFR" },
+          {
+            "type": "object",
+            "required": ["roleCode"],
+            "properties": {
+              "roleCode": { "type": "string" },
+              "role": { "type": "string", "maxLength": 70 },
+              "cargoAgentID": { "type": "string", "pattern": "^[0-9]{7}$" },
+              "specifiedCargoAgentLocation": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "maxLength": 3 }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "LocationXFFR": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 70
+          }
+        }
+      },
+      "TransportMovement": {
+        "type": "object",
+        "required": ["stageCode", "id", "spaceAllocationCode", "departureEvent", "arrivalEvent"],
+        "properties": {
+          "sequenceNumeric": { "type": "integer", "minimum": 1, "maximum": 9999 },
+          "stageCode": { "type": "string", "enum": ["Pre-Carriage", "Main-Carriage", "On-Carriage"] },
+          "modeCode": { "type": "string", "enum": ["4"] },
+          "mode": { "type": "string", "maxLength": 70 },
+          "id": { "type": "string", "maxLength": 35 },
+          "pieceQuantity": { "type": "integer", "minimum": 0, "maximum": 99999 },
+          "tareGrossWeightMeasure": {
+            "type": "object",
+            "properties": {
+              "value": { "type": "number", "minimum": 0 },
+              "unitCode": { "type": "string", "enum": ["KGM"] }
+            }
+          },
+          "grossVolumeMeasure": {
+            "type": "object",
+            "properties": {
+              "value": { "type": "number", "minimum": 0 },
+              "unitCode": { "type": "string", "enum": ["MTQ"] }
+            }
+          },
+          "spaceAllocationCode": { "type": "string", "pattern": "^[A-Z]{2}$" },
+          "allotmentID": { "type": "string", "maxLength": 70 },
+          "serviceCode": { "type": "string", "pattern": "^[A-Z]$" },
+          "productIdentifier": { "type": "string", "maxLength": 70 },
+          "usedLogisticsTransportMeans": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "maxLength": 70 }
+            }
+          },
+          "departureEvent": {
+            "$ref": "#/components/schemas/TransportEvent"
+          },
+          "arrivalEvent": {
+            "$ref": "#/components/schemas/TransportEvent"
+          },
+          "serviceParameters": {
+            "type": "object",
+            "properties": {
+              "serviceParameterTypeCode": { "type": "string", "enum": ["T"] },
+              "totalTransitTime": { "type": "integer" },
+              "latestAcceptanceTime": { "type": "string", "format": "time" },
+              "timeOfAvailability": { "type": "string", "format": "time" },
+              "serviceParameterResponseCode": { "type": "string", "enum": ["SPKK", "SPHL", "SPUU"] }
+            }
+          }
+        }
+      },
+      "TransportEvent": {
+        "type": "object",
+        "required": ["scheduledOccurrenceDateTime", "occurrenceLocation"],
+        "properties": {
+          "scheduledOccurrenceDateTime": { "type": "string", "format": "date-time" },
+          "latestAcceptanceRelatedDateTime": { "type": "string", "format": "date-time" },
+          "occurrenceLocation": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string", "pattern": "^[A-Z]{3}$" },
+              "name": { "type": "string", "maxLength": 70 },
+              "typeCode": { "type": "string", "enum": ["Airport"] }
+            }
+          }
+        }
+      },
+      "SPHInstruction": {
+        "type": "object",
+        "required": ["descriptionCode"],
+        "properties": {
+          "descriptionCode": { "type": "string", "pattern": "^[A-Z]{3}$" },
+          "description": { "type": "string", "maxLength": 70 }
+        }
+      },
+      "SSRInstruction": {
+        "type": "object",
+        "required": ["description"],
+        "properties": {
+          "descriptionCode": { "type": "string", "maxLength": 5 },
+          "description": { "type": "string", "maxLength": 195 }
+        }
+      },
+      "CustomsNote": {
+        "type": "object",
+        "required": ["content"],
+        "properties": {
+          "contentCode": { "type": "string", "maxLength": 3 },
+          "content": { "type": "string", "maxLength": 70 },
+          "subjectCode": { "type": "string", "maxLength": 2 },
+          "countryID": { "type": "string", "pattern": "^[A-Z]{2}$" }
+        }
+      },
+      "ConsignmentItem": {
+        "type": "object",
+        "required": ["typeCode", "pieceQuantity"],
+        "properties": {
+          "typeCode": { "type": "string", "maxLength": 70 },
+          "grossWeightMeasure": {
+            "type": "object",
+            "properties": {
+              "value": { "type": "number", "minimum": 0 },
+              "unitCode": { "type": "string", "enum": ["KGM"] }
+            }
+          },
+          "pieceQuantity": { "type": "integer", "minimum": 0, "maximum": 99999 },
+          "originCountry": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string", "pattern": "^[A-Z]{2}$" }
+            }
+          },
+          "packageDetails": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "typeCode": { "type": "string", "maxLength": 17 },
+                "quantity": { "type": "integer", "minimum": 1 },
+                "grossWeightMeasure": {
+                  "type": "object",
+                  "properties": {
+                    "value": { "type": "number", "minimum": 0 },
+                    "unitCode": { "type": "string", "enum": ["KGM"] }
+                  }
+                },
+                "lengthMeasure": {
+                  "type": "object",
+                  "properties": {
+                    "value": { "type": "number", "minimum": 0 },
+                    "unitCode": { "type": "string", "enum": ["CMT"] }
+                  }
+                },
+                "widthMeasure": {
+                  "type": "object",
+                  "properties": {
+                    "value": { "type": "number", "minimum": 0 },
+                    "unitCode": { "type": "string", "enum": ["CMT"] }
+                  }
+                },
+                "heightMeasure": {
+                  "type": "object",
+                  "properties": {
+                    "value": { "type": "number", "minimum": 0 },
+                    "unitCode": { "type": "string", "enum": ["CMT"] }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "XFFRBookingResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "bookingRequestID": { "type": "string" },
+          "awbNumber": { "type": "string" },
+          "status": { "type": "string", "enum": ["pending", "confirmed", "rejected", "alternative"] },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "xffrMessageID": { "type": "string" }
+        }
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string", "enum": ["validation_error"] },
+          "errorDescription": { "type": "string" },
+          "errorUri": { "type": "string", "format": "uri" },
+          "validationErrors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": { "type": "string" },
+                "message": { "type": "string" },
+                "code": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "ConflictError": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string", "enum": ["conflict"] },
+          "errorDescription": { "type": "string" },
+          "errorUri": { "type": "string", "format": "uri" }
+        }
+      },
+      "XFFRMessage": {
+        "type": "object",
+        "xml": {
+          "name": "IATA_XFFR_BookingRequestMessage",
+          "namespace": "iata:xffr:3"
+        },
+        "description": "XML Schema for XFFR message"
       }
     }
   }

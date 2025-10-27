@@ -101,7 +101,8 @@
         "api-reference/bookings/get",
         "api-reference/bookings/confirm/create",
         "api-reference/flights/bookings/get",
-        "api-reference/airlines/bookings/create"
+        "api-reference/airlines/bookings/create",
+        "api-reference/bookings/xffr/create"
       ]
     },
     {

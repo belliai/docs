@@ -1,0 +1,60 @@
+---
+title: 'Create XFFR-Compliant Booking'
+openapi: 'POST /api/bookings/xffr'
+---
+
+
+<ParamField status="201" type="object">
+  <ParamField name="id" type="string">
+    Booking identifier
+  </ParamField>
+  <ParamField name="bookingRequestID" type="string">
+    Booking request ID
+  </ParamField>
+  <ParamField name="awbNumber" type="string">
+    Air Waybill number
+  </ParamField>
+  <ParamField name="status" type="string">
+    Booking status (pending, confirmed, rejected, alternative)
+  </ParamField>
+  <ParamField name="createdAt" type="string">
+    Creation timestamp
+  </ParamField>
+  <ParamField name="xffrMessageID" type="string">
+    Reference to the XFFR message
+  </ParamField>
+</ParamField>
+
+
+<ParamField status="400" type="object">
+  <ParamField name="error" type="string">
+    Validation error
+  </ParamField>
+  <ParamField name="errorDescription" type="string">
+    Error description
+  </ParamField>
+  <ParamField name="validationErrors" type="array">
+    Array of validation error details
+  </ParamField>
+</ParamField>
+
+
+<ParamField status="409" type="object">
+  <ParamField name="error" type="string">
+    Conflict error
+  </ParamField>
+  <ParamField name="errorDescription" type="string">
+    Error description
+  </ParamField>
+</ParamField>
+
+### Reference Documentation
+
+<Info>
+For more information on XFFR-compliant bookings using IATA standards, please refer to:
+- IATA XFFR v3.10
+- IATA Reference: XFFR / EQ.E6ACA.10
+- Message Type: 740 (Air Waybill)
+- Version: 3.10
+</Info>
+
